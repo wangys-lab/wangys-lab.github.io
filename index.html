@@ -250,7 +250,7 @@
             text-decoration: underline;
         }
 
-        /* ========== 新增：课题组风采相册样式 ========== */
+        /* ========== 课题组风采相册样式 ========== */
         .gallery-section {
             margin-bottom: 32px;
         }
@@ -277,6 +277,25 @@
         .gallery-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        /* ========== 论文列表专属样式 ========== */
+        .paper-list {
+            margin-left: 26px;
+            margin-bottom: 15px;
+        }
+        .paper-list li {
+            margin-bottom: 14px;
+            text-align: justify;
+            font-size: 14.5px;
+            line-height: 1.7;
+        }
+        .paper-list strong {
+            color: #b01b23;
+            font-weight: 600;
+        }
+        .paper-list i {
+            font-style: italic;
         }
     </style>
 </head>
@@ -385,13 +404,13 @@
                 <h2>研究与成果</h2>
 
                 <h3>科研项目</h3>
-                <p>作为项目负责人承担并完成多项国家级、省部级科研项目，总经费超过2000万元，主要包括：</p>
+                <p>作为项目负责人承担并完成多项国家级、省部级科研项目，总经费超过3000万元，主要包括：</p>
                 <ul>
-                    <li>国家科技部"863计划"项目 1项</li>
-                    <li>"重大新药创制"科技重大专项课题 2项</li>
-                    <li>国家自然科学基金面上项目 6项</li>
-                    <li>四川省科技厅重点项目 1项</li>
-                    <li>中国医学科学院临床与转化医学研究基金项目 1项</li>
+                    <li>国家科技部"863计划"项目</li>
+                    <li>"重大新药创制"科技重大专项课题</li>
+                    <li>国家自然科学基金面上项目 8项</li>
+                    <li>四川省科技厅重点项目</li>
+                    <li>中国医学科学院临床与转化医学研究基金项目</li>
                 </ul>
 
                 <h3>学术论文</h3>
@@ -408,10 +427,21 @@
                 <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
             </div>
 
-            <!-- 实验室动态 -->
+            <!-- 相关论文 -->
             <div class="tab-pane" id="news">
-                <h2>论文情况</h2>
-                <p class="placeholder">【可在此发布课题组最新新闻、论文发表、学术交流、获奖等动态】</p>
+                <h2>相关论文</h2>
+                <ol class="paper-list">
+                    <li>Lei YN, Qin D, He Y, Shu P, Zhang B, Chen Y, Liu N, He X, Zhang YG, Chang MY, Li X, Guo FC, Bai LL, Feng M, Wang FJ, Gao Y, Zhu B, Li Z, Li D, <strong>Wang YS</strong>, Wei Y. Parallel 4-1BB Signaling in Dual DLL3/CD56-Targeting CAR-T Cells Triggers Adaptive Proliferation and Functional Persistence to Eradicate Small Cell Lung Cancer. <i>Cancer Res</i>. 2026 Jul 23. doi: 10.1158/0008-5472.CAN-25-5261. Epub ahead of print. PMID: 42489524.</li>
+                    <li>Huang T, Fan Z, <strong>Wang Y</strong>, Yan X, Yang H, Wang S, Pang D, Li H, Wang H, Geng C, Huang L, Sun Y, Wang B, Sun G, Siddiqui A, Restuccia E, Shao Z. The fixed-dose combination of pertuzumab and trastuzumab for subcutaneous injection in Chinese patients with HER2-positive early breast cancer: primary analysis of the phase III, randomized FDChina study. <i>Int J Clin Oncol</i>. 2026 Jul;31(7):1189-1200. doi: 10.1007/s10147-025-02935-7. Epub 2026 May 7. PMID: 42098463; PMCID: PMC13303565.</li>
+                    <li>Zhou H, Zhao H, Hou X, <strong>Wang Y</strong>, He Z, Li Y, Ma Y, Zhao Y, Huang Y, Chen L, Xiao S, Zhu H, Zhu Y, Fang W, Zhang L, Yang Y. Izalontamab Brengitecan in Locally Advanced or Metastatic Non-Small Cell Lung Cancer With Actionable Genomic Alterations Outside of Classical <i>EGFR</i> Mutations: A Phase Ib Study. <i>J Clin Oncol</i>. 2026 Apr;44(10):893-902. doi: 10.1200/JCO-25-01929. Epub 2026 Mar 4. PMID: 41779981; PMCID: PMC13011950.</li>
+                    <li>Shu P, Guo F, Qin D, Zou L, Ma Q, Zhang B, Gao G, Chen Y, He X, Jiang M, Liu N, Zhou K, Zhao J, Lei Y, Gao Y, Zhang Y, Zeng Y, Feng M, Li X, Li D, <strong>Wang Y</strong>. CXCR4-modification enhances CAR-T efficacy by improving tumor tracking and bone marrow homing in B-cell malignancies. <i>Signal Transduct Target Ther</i>. 2026 Jan 28;11(1):38. doi: 10.1038/s41392-025-02522-2. PMID: 41605906; PMCID: PMC12852854.</li>
+                    <li>Feng M, Ma Q, Zhang B, Chen Y, Yang Y, He X, Zeng Y, Jing M, Ou X, Liu Y, Li Q, Liao W, Li X, Tan S, Qin D, Li D, Li Q, <strong>Wang Y</strong>. Targeting the poliovirus receptor to activate T cells and induce myeloid-derived suppressor cells to differentiate to pro-inflammatory macrophages via the IFN-γ-p-STAT1-IRF8 axis in cancer therapy. <i>Cell Death Differ</i>. 2025 Oct;32(10):1791-1805. doi: 10.1038/s41418-025-01496-6. Epub 2025 Apr 14. PMID: 40229462; PMCID: PMC12500977.</li>
+                    <li>Li W, <strong>Wang Y</strong>, Xiong A, Gao G, Song Z, Zhang Y, Huang D, Ye F, Wang Q, Li Z, Liu J, Xu C, Sun Y, Liu X, Zhou F, Zhou C. First-in-human, phase 1 dose-escalation and dose-expansion study of a RET inhibitor SY-5007 in patients with advanced RET-altered solid tumors. <i>Signal Transduct Target Ther</i>. 2024 Nov 4;9(1):300. doi: 10.1038/s41392-024-02006-9. PMID: 39489747; PMCID: PMC11532403.</li>
+                    <li>Zhang B, Hu M, Ma Q, Li K, Li X, He X, Shu P, Chen Y, Gao G, Qin D, Guo F, Zhao J, Liu N, Zhou K, Feng M, Liao W, Li D, Wang X, <strong>Wang Y</strong>. Optimized CAR-T therapy based on spatiotemporal changes and chemotactic mechanisms of MDSCs induced by hypofractionated radiotherapy. <i>Mol Ther</i>. 2023 Jul 5;31(7):2105-2119. doi: 10.1016/j.ymthe.2023.04.008. Epub 2023 Apr 17. PMID: 37073129; PMCID: PMC10362417.</li>
+                    <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang Y</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <i>Signal Transduct Target Ther</i>. 2022 Nov 19;7(1):380. doi: 10.1038/s41392-022-01198-2. PMID: 36402752; PMCID: PMC9675732.</li>
+                    <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang Y</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <i>Signal Transduct Target Ther</i>. 2021 Oct 7;6(1):362. doi: 10.1038/s41392-021-00670-9. PMID: 34620838; PMCID: PMC8497485.</li>
+                </ol>
+                <div class="update-time">更新时间：2026-08-31</div>
             </div>
 
             <!-- 课题组风采 -->
@@ -430,7 +460,6 @@
                         <div class="gallery-item">
                             <img src="images/毕业照/3.jpg" alt="毕业照3">
                         </div>
-                        <!-- 更多照片：复制上面<div class="gallery-item">块，改序号即可 -->
                     </div>
                 </div>
 
@@ -447,13 +476,13 @@
                             <img src="images/实验室活动/3.jpg" alt="实验室活动3">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/实验室活动/4.jpg" alt="实验室活动1">
+                            <img src="images/实验室活动/4.jpg" alt="实验室活动4">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/实验室活动/5.jpg" alt="实验室活动2">
+                            <img src="images/实验室活动/5.jpg" alt="实验室活动5">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/实验室活动/6.jpg" alt="实验室活动3">
+                            <img src="images/实验室活动/6.jpg" alt="实验室活动6">
                         </div>
                     </div>
                 </div>
@@ -471,13 +500,13 @@
                             <img src="images/细胞治疗团队/3.jpg" alt="细胞治疗团队3">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/细胞治疗团队/4.jpg" alt="细胞治疗团队3">
+                            <img src="images/细胞治疗团队/4.jpg" alt="细胞治疗团队4">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/细胞治疗团队/5.jpg" alt="细胞治疗团队3">
+                            <img src="images/细胞治疗团队/5.jpg" alt="细胞治疗团队5">
                         </div>
                         <div class="gallery-item">
-                            <img src="images/细胞治疗团队/6.jpg" alt="细胞治疗团队3">
+                            <img src="images/细胞治疗团队/6.jpg" alt="细胞治疗团队6">
                         </div>
                     </div>
                 </div>
