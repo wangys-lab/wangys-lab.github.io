@@ -249,6 +249,35 @@
         .tab-pane a:hover {
             text-decoration: underline;
         }
+
+        /* ========== 新增：课题组风采相册样式 ========== */
+        .gallery-section {
+            margin-bottom: 32px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 12px;
+        }
+        .gallery-item {
+            width: 100%;
+            height: 210px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
     </style>
 </head>
 <body>
@@ -257,9 +286,9 @@
     <div class="header-wrap">
         <div class="container">
             <div class="profile-header">
-                <!-- 头像区域：已写入桌面照片 -->
+                <!-- 头像区域 -->
                 <div class="avatar-box">
-                    <img src="图片 1.jpg" alt="王永生">
+                    <img src="images/头像.jpg" alt="王永生">
                 </div>
 
                 <!-- 个人信息 -->
@@ -388,7 +417,72 @@
             <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
                 <h2>课题组风采</h2>
-                <p class="placeholder">【可在此发布团队活动、组会交流、学生风采、合作交流等照片和动态】</p>
+
+                <div class="gallery-section">
+                    <h3>毕业照</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="images/毕业照/1.jpg" alt="毕业照1">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/毕业照/2.jpg" alt="毕业照2">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/毕业照/3.jpg" alt="毕业照3">
+                        </div>
+                        <!-- 更多照片：复制上面<div class="gallery-item">块，改序号即可 -->
+                    </div>
+                </div>
+
+                <div class="gallery-section">
+                    <h3>实验室活动</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/1.jpg" alt="实验室活动1">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/2.jpg" alt="实验室活动2">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/3.jpg" alt="实验室活动3">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/4.jpg" alt="实验室活动1">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/5.jpg" alt="实验室活动2">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/实验室活动/6.jpg" alt="实验室活动3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-section">
+                    <h3>细胞治疗团队</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/1.jpg" alt="细胞治疗团队1">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/2.jpg" alt="细胞治疗团队2">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/3.jpg" alt="细胞治疗团队3">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/4.jpg" alt="细胞治疗团队3">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/5.jpg" alt="细胞治疗团队3">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="images/细胞治疗团队/6.jpg" alt="细胞治疗团队3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="update-time">更新时间：2026-08-31</div>
             </div>
 
             <!-- 招聘信息 -->
