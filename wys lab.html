@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王永生 - 四川大学华西医院</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        /* 顶部华西红色标题栏 */
+        .top-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #b01b23;
+        }
+
+        .header-wrap {
+            background: #fff;
+            border-bottom: 3px solid #b01b23;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 个人信息头部 */
+        .profile-header {
+            display: flex;
+            gap: 40px;
+            padding: 35px 0;
+            align-items: flex-start;
+        }
+
+        .avatar-box {
+            width: 160px;
+            height: 200px;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-info h1 {
+            font-size: 28px;
+            color: #b01b23;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .profile-info .title {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .profile-info .department {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .contact-list {
+            list-style: none;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .contact-list li {
+            margin-bottom: 6px;
+        }
+
+        .contact-list li span {
+            color: #888;
+            margin-right: 8px;
+        }
+
+        .research-direction {
+            margin-top: 18px;
+        }
+
+        .research-direction h4 {
+            font-size: 18px;
+            color: #b01b23;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* 研究方向：横向一排、字号缩小 */
+        .research-direction ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+        }
+
+        .research-direction li {
+            background-color: #fdf0f1;
+            color: #b01b23;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        /* 标签导航 */
+        .tab-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            margin-top: 5px;
+        }
+
+        .tab-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        .tab-item {
+            padding: 14px 28px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #444;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab-item:hover {
+            color: #b01b23;
+            background-color: #fdf8f8;
+        }
+
+        .tab-item.active {
+            color: #b01b23;
+            border-bottom-color: #b01b23;
+            font-weight: 600;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px 40px;
+            min-height: 500px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .tab-pane h2 {
+            font-size: 20px;
+            color: #b01b23;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+
+        .tab-pane h3 {
+            font-size: 17px;
+            color: #333;
+            margin: 22px 0 10px;
+        }
+
+        .tab-pane p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .tab-pane ul {
+            margin-left: 22px;
+            margin-bottom: 15px;
+        }
+
+        .tab-pane li {
+            margin-bottom: 6px;
+        }
+
+        /* 工作经历列表放大字号 */
+        .experience-list {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .experience-list li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* 底部 */
+        .footer {
+            background-color: #f0f0f0;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 30px;
+        }
+
+        .update-time {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        /* 占位符提示样式 */
+        .placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .tab-pane a {
+            color: #b01b23;
+            text-decoration: none;
+        }
+
+        .tab-pane a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+
+    <div class="header-wrap">
+        <div class="container">
+            <div class="profile-header">
+                <!-- 头像区域：已写入桌面照片 -->
+                <div class="avatar-box">
+                    <img src="图片 1.jpg" alt="王永生">
+                </div>
+
+                <!-- 个人信息 -->
+                <div class="profile-info">
+                    <h1>王永生</h1>
+                    <div class="title">教授 | 博士生导师</div>
+                    <div class="department">
+                        单位：四川大学华西医院 肿瘤中心·胸部肿瘤科<br>
+                        职务：肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任、华西医院创新药物临床研究与评价国家药监局重点实验室主任
+                    </div>
+
+                    <ul class="contact-list">
+                        <li><span>邮箱：</span>wangys756@gmail.com</li>
+                    </ul>
+
+                    <div class="research-direction">
+                        <h4>研究方向</h4>
+                        <ul>
+                            <li>肿瘤免疫治疗</li>
+                            <li>细胞治疗（CAR-T）</li>
+                            <li>分子靶向治疗</li>
+                            <li>临床转化研究</li>
+                            <li>新药临床试验</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标签导航 -->
+    <div class="tab-nav">
+        <div class="container">
+            <ul class="tab-list">
+                <li class="tab-item active" data-tab="intro">个人简介</li>
+                <li class="tab-item" data-tab="research">科研方向</li>
+                <li class="tab-item" data-tab="achievements">研究与成果</li>
+                <li class="tab-item" data-tab="news">相关论文</li>
+                <li class="tab-item" data-tab="members">课题组风采</li>
+                <li class="tab-item" data-tab="recruit">招聘信息</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="container">
+        <div class="main-content">
+            <!-- 个人简介 -->
+            <div class="tab-pane active" id="intro">
+                <h2>个人简介</h2>
+                
+                <h3>教育与工作经历</h3>
+                <ul class="experience-list">
+                    <li>1998年毕业于重庆医科大学</li>
+                    <li>1998-2002年在泸州医学院附属医院工作</li>
+                    <li>2002-2007年获四川大学肿瘤学博士学位</li>
+                    <li>2007-2009年在生物治疗国家重点实验室从事博士后研究</li>
+                    <li>2009年至今任职于华西医院胸部肿瘤科，同时作为生物治疗国家重点实验室项目负责人，开展肿瘤分子靶向及免疫治疗的基础与临床转化研究</li>
+                    <li>2013年任华西医院胸部肿瘤科副主任</li>
+                    <li>2015-2016年在美国DUKE大学访学一年</li>
+                    <li>2018年2月起任华西医院国家药物临床试验机构/临床药理研究所主任</li>
+                    <li>2021年3月起任国家药监局创新药物临床研究与评价重点实验室主任</li>
+                    <li>2022年6月起任华西医院肿瘤中心副主任、兼临床研究部副部长</li>
+                </ul>
+
+                <h3>学术任职</h3>
+                <ul>
+                    <li>中国抗癌协会中西医整合肿瘤专业委员会副主任委员</li>
+                    <li>中国生物医药技术协会临床研究专业委员会副主任委员</li>
+                    <li>中国临床肿瘤学会(CSCO)免疫治疗专家委员会委员</li>
+                    <li>四川省医师协会药物临床试验研究者分会会长</li>
+                    <li>四川省抗癌协会老年肿瘤专委会主任委员</li>
+                    <li>四川省医促会肿瘤学MDT专委会主任委员</li>
+                </ul>
+            </div>
+
+            <!-- 科研方向 -->
+            <div class="tab-pane" id="research">
+                <h2>科研方向</h2>
+                <p>研究工作主要聚焦于肿瘤靶向及免疫治疗临床与转化研究，特别是免疫细胞治疗的技术开发与临床应用。</p>
+
+                <h3>1. 肿瘤免疫治疗基础与临床转化</h3>
+                <p>开展免疫检查点抑制剂、免疫细胞治疗等新疗法的基础机制研究与临床转化，推动免疫治疗方案的优化与个体化应用。</p>
+
+                <h3>2. CAR-T细胞治疗技术开发</h3>
+                <p>专注于CAR-T等免疫细胞治疗产品的研发，推动细胞治疗专利成果的临床转化，在华西医院牵头开展多项CAR-T细胞临床试验。</p>
+
+                <h3>3. 创新药物临床研究与评价</h3>
+                <p>作为国家药物临床试验机构负责人，牵头开展国内外创新抗肿瘤药物的临床试验，包括全球多中心临床研究，建立创新药物临床评价体系。</p>
+            </div>
+
+            <!-- 研究成果 -->
+            <div class="tab-pane" id="achievements">
+                <h2>研究与成果</h2>
+
+                <h3>科研项目</h3>
+                <p>作为项目负责人承担并完成多项国家级、省部级科研项目，总经费超过2000万元，主要包括：</p>
+                <ul>
+                    <li>国家科技部"863计划"项目 1项</li>
+                    <li>"重大新药创制"科技重大专项课题 2项</li>
+                    <li>国家自然科学基金面上项目 6项</li>
+                    <li>四川省科技厅重点项目 1项</li>
+                    <li>中国医学科学院临床与转化医学研究基金项目 1项</li>
+                </ul>
+
+                <h3>学术论文</h3>
+                <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇），J Clin Oncol，Ann Oncol，Cancer Res，Clin Cancer Res（2篇），Mol Ther，JITC等发表研究论文100多篇。</p>
+
+                <h3>专利与转化</h3>
+                <ul>
+                    <li>获授权专利7项，其中PCT专利2项</li>
+                    <li>3项细胞治疗产品进入临床转化阶段</li>
+                    <li>与多家生物公司签订联合开发协议</li>
+                </ul>
+
+                <h3>临床试验</h3>
+                <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
+            </div>
+
+            <!-- 实验室动态 -->
+            <div class="tab-pane" id="news">
+                <h2>论文情况</h2>
+                <p class="placeholder">【可在此发布课题组最新新闻、论文发表、学术交流、获奖等动态】</p>
+            </div>
+
+            <!-- 课题组风采 -->
+            <div class="tab-pane" id="members">
+                <h2>课题组风采</h2>
+                <p class="placeholder">【可在此发布团队活动、组会交流、学生风采、合作交流等照片和动态】</p>
+            </div>
+
+            <!-- 招聘信息 -->
+            <div class="tab-pane" id="recruit">
+                <h2>招聘信息</h2>
+                
+                <h3>博士后招聘</h3>
+                <p>因科研工作发展需要，四川大学华西医院王永生课题组现面向国内外公开招收博士后研究人员数名。</p>
+
+                <h3>课题组介绍</h3>
+                <p>王永生教授，现任华西医院创新药物临床研究与评价国家药监局重点实验室主任、华西医院肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任，四川大学生物治疗国家重点实验室肿瘤生物研究室PI、博士生导师。</p>
+                <p>长期从事肿瘤临床及基础研究工作，基础研究主要集中于肿瘤免疫治疗和临床转化研究。承担“十一五”“十三五”重大新药创制、国家“863”项目、国家自然科学基金项目等多个国家级项目，以第一作者或通讯作者在Signal Transduct Target Ther（6篇）、J Clin Oncol、Ann Oncol、Cancer Res、Clin Cancer Res（2篇）、Mol Ther、JITC等期刊发表研究论文100多篇。</p>
+                <p>团队近几年在CAR-T细胞领域获授权专利7项（PCT专利2项），其中1项PCT专利已获得美国授权，欧盟专利进入最后审核阶段。目前与多家企业签订合作协议，推进临床转化。</p>
+
+                <h3>岗位描述</h3>
+                <ul>
+                    <li>从事与课题组承担的国家研究课题相关的科研工作；</li>
+                    <li>在站工作期限为3年；</li>
+                    <li>在站期间待遇、科研业绩要求，以及出站后留院要求，均按照四川大学华西医院博士后管理有关规定执行。</li>
+                </ul>
+
+                <h3>招收条件</h3>
+                <ul>
+                    <li>具备较强的事业心，有志于从事科学研究，能够独立开展科研工作；</li>
+                    <li>具有国内外知名大学或研究机构授予的相关专业博士学位，年龄不超过35周岁，能全职从事博士后研究工作；</li>
+                    <li>具有免疫学、肿瘤生物学、分子生物学博士学位且有细胞治疗研究经历者优先考虑；</li>
+                    <li>品行端正，身体健康，诚实守信，具备强烈的责任心和团队合作意识，富有科研探索精神，具备良好的英语写作和沟通能力；</li>
+                    <li>博士期间至少以第一作者发表过SCI论文1-2篇。</li>
+                </ul>
+
+                <h3>应聘方式</h3>
+                <p>请有意者将个人简历发送至邮箱：<a href="mailto:wangys@scu.edu.cn">wangys@scu.edu.cn</a>，邮件标题请注明“博士后”。</p>
+
+                <div class="update-time">更新时间：2026-08-31</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer">
+        <div class="container">
+            <p>© 2026 四川大学华西医院 王永生课题组 版权所有</p>
+        </div>
+    </div>
+
+    <script>
+        // 标签页切换功能
+        const tabItems = document.querySelectorAll('.tab-item');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        tabItems.forEach(item => {
+            item.addEventListener('click', () => {
+                tabItems.forEach(i => i.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
+
+                item.classList.add('active');
+                const tabId = item.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
