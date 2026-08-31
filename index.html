@@ -26,11 +26,10 @@
         }
 
         .header-wrap {
-            background-color: #ffffff;
-            /* 右侧叠加一个极其柔和的红色半透明光晕 */
-            background-image: radial-gradient(circle at 85% 10%, rgba(176, 27, 35, 0.03) 0%, transparent 40%);
+            /* 使用浅色对角线渐变代替纯白 */
+            background: linear-gradient(135deg, #ffffff 0%, #f0f2f5 100%);
             border-bottom: 3px solid #b01b23;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 稍微加深了阴影，增加层次 */
         }
         
         .container {
