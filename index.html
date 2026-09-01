@@ -149,18 +149,38 @@
         }
 
         /* 👇 修改点：替换为你上传的枫叶图 huaxi.png 👇 */
+        ./* 👇 全新升级的背景水印方案 👇 */
         .main-content {
             background-color: #fff;
-            background-image: url("huaxi.png"); 
-            background-repeat: no-repeat;
-            background-position: right 30px bottom 30px; 
-            background-size: 320px; /* 如果枫叶太大或太小，可以改这个数字 */
             margin: 20px auto;
             padding: 30px 40px;
             min-height: 500px;
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            /* 关键1：开启相对定位，为了容纳下层水印 */
+            position: relative; 
+            z-index: 1;
         }
+
+        /* 关键2：使用伪元素单独设置背景，这样可以随意调透明度而不影响文字 */
+        .main-content::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            /* 引入你的新图片 */
+            background-image: url("huaxi.png"); 
+            background-repeat: no-repeat;
+            background-position: right bottom; 
+            background-size: 450px auto; /* 控制图片大小，你可以根据喜好改这个数字 */
+            /* 👑 关键3：透明度魔法！0.15 代表 15% 的透明度，若隐若现最高级 */
+            opacity: 0.15; 
+            z-index: -1; /* 把它压在文字最底下 */
+            pointer-events: none; /* 防止它挡住你复制文字或点击链接 */
+        }
+        /* 👆 修改结束 👆 */
 
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
