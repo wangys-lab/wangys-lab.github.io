@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>王永生 - 四川大学华西医院</title>
     <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -18,37 +21,32 @@
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.7;
-            overflow: hidden; /* 初始禁止滚动 */
+            overflow: hidden; 
         }
 
-        /* =========================================
-           👇 1. 全新：医疗科技蓝 细胞启动页 👇 
-           ========================================= */
+        /* 全屏启动页：图片背景 + 缓慢缩小进入主页面 */
         #landing-page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* 医疗高科技浅蓝渐变底色 */
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
-            /* 如果你上传了 cart-bg.jpg，它会覆盖上面的纯色渐变 */
-            background-image: url('cart-bg.jpg'); 
+            background-color: #38080a;
+            background-image: url('landing-bg.jpg');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             z-index: 9999;
-            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
-            cursor: pointer; /* 整个页面变成可点击的手型 */
+            cursor: pointer;
+            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1), opacity 1.2s ease;
         }
 
-        #landing-page.slide-up {
-            transform: translateY(-100%);
+        /* 点击后：缩小并下移，最终退出视野 */
+        #landing-page.zoom-out {
+            transform: translateY(10vh) scale(0.85);
             opacity: 0;
             pointer-events: none;
         }
 
-        /* 细胞动画画布 */
         #landingCanvas {
             position: absolute;
             top: 0;
@@ -56,268 +54,641 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none; /* 让点击穿透画布 */
         }
 
-        /* 启动页内容容器 */
-        .landing-content {
+        /* 启动页文字区 */
+        .landing-top-right {
             position: absolute;
-            top: 45%;
-            left: 10%;
-            transform: translateY(-50%);
+            top: 50px;
+            right: 60px;
             z-index: 10;
-            pointer-events: none; /* 文字不阻挡点击 */
+        }
+
+        .enter-btn {
+            display: inline-block;
+            color: #d4a96a;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid rgba(212, 169, 106, 0.6);
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+        }
+
+        .enter-btn:hover {
+            background-color: #d4a96a;
+            color: #38080a;
+            box-shadow: 0 0 15px rgba(212, 169, 106, 0.5);
+            border-color: #d4a96a;
+        }
+
+        .landing-bottom-left {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            z-index: 10;
         }
 
         .landing-title {
-            font-family: "Helvetica Neue", "Microsoft YaHei", sans-serif;
-            font-size: 56px;
-            color: #0c4a6e; /* 极深的科技蓝 */
-            font-weight: 800;
+            font-family: "Playfair Display", "Georgia", serif;
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: 700;
             letter-spacing: 2px;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 15px rgba(255,255,255,0.6);
+            margin-bottom: 8px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
         .landing-subtitle {
-            font-family: "Playfair Display", "Georgia", serif;
-            font-size: 20px;
-            color: #0284c7;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            color: #d4a96a;
             letter-spacing: 4px;
             text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .click-hint {
-            display: inline-block;
-            font-size: 16px;
-            color: #0369a1;
-            font-weight: 500;
-            letter-spacing: 2px;
-            padding: 10px 24px;
-            border: 1px solid rgba(3, 105, 161, 0.3);
-            border-radius: 30px;
-            background-color: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(4px);
-            animation: pulse 2s infinite; /* 呼吸动画 */
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(3, 105, 161, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(3, 105, 161, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(3, 105, 161, 0); }
-        }
-        /* 👆 启动页结束 👆 */
-
-
-        /* =========================================
-           👇 2. 个人主页内容样式 (Main Profile) 👇 
-           ========================================= */
+        /* 顶部品牌栏 */
         .top-brand-bar {
-            background-color: #38080a; height: 55px; display: flex; align-items: center;
+            background-color: #38080a;
+            height: 55px;
+            display: flex;
+            align-items: center;
         }
         
         .top-brand-bar .container {
-            display: flex; justify-content: space-between; align-items: center; width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .lab-name {
-            color: #d4a96a; font-size: 22px; 
+            color: #d4a96a;
+            font-size: 22px; 
             font-family: "Playfair Display", "Georgia", "Times New Roman", serif; 
-            font-style: italic; font-weight: 600; letter-spacing: 1.5px;
-            text-decoration: none; transition: color 0.3s ease; 
+            font-style: italic;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: color 0.3s ease; 
         }
-        .lab-name:hover { color: #fce1b3; }
+
+        .lab-name:hover {
+            color: #fce1b3;
+        }
 
         .about-us-link {
-            color: #ffffff; font-size: 14px; font-weight: 500;
-            letter-spacing: 1px; text-transform: uppercase;
-            text-decoration: none; transition: color 0.3s ease;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
         }
-        .about-us-link:hover { color: #d4a96a; }
 
+        .about-us-link:hover {
+            color: #d4a96a;
+        }
+
+        /* 顶部横幅 */
         .header-wrap {
-            position: relative; background-color: #921b22; 
+            position: relative;
+            background-color: #921b22; 
             background-image: radial-gradient(circle at 80% 50%, #9d1b22, #7a1116);
-            border-bottom: 4px solid #d4a96a; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden;
+            border-bottom: 4px solid #d4a96a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
-        .header-wrap .container { position: relative; }
 
-        .banner-bottom-text {
-            position: absolute; bottom: 12px; left: 20px; z-index: 2; pointer-events: none; 
-        }
-        .banner-bottom-text .b-line1 {
-            font-family: "Playfair Display", "Georgia", "Times New Roman", serif;
-            font-size: 22px; font-weight: 700; color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .banner-bottom-text .b-line2 {
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            font-size: 11.5px; color: #d4a96a; letter-spacing: 1.5px;
-            text-transform: uppercase; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        .header-wrap .container {
+            position: relative;
         }
 
         #particleCanvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; 
         }
         
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
         .profile-header {
-            position: relative; z-index: 1; display: flex; gap: 40px;
-            padding: 40px 0 60px 0; align-items: center; justify-content: space-between;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 40px;
+            padding: 40px 0 60px 0;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .banner-text-box {
-            border-left: 4px solid #d4a96a; padding-left: 20px; flex-grow: 1; color: #ffffff; 
+            border-left: 4px solid #d4a96a;
+            padding-left: 20px;
+            flex-grow: 1;
+            color: #ffffff; 
         }
-        .banner-text-box h1 {
-            font-size: 32px; font-weight: bold; margin-bottom: 5px;
-            letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
-        }
-        .banner-text-box .eng-title {
-            font-size: 15px; font-style: italic; font-family: "Times New Roman", Times, serif;
-            opacity: 0.85; margin-bottom: 18px;
-        }
-        .banner-text-box .details p {
-            font-size: 14.5px; line-height: 1.8; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        .banner-text-box .details strong { font-weight: normal; opacity: 0.8; }
 
-        .research-direction { margin-top: 18px; }
-        .research-direction ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+        .banner-text-box h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+        }
+
+        .banner-text-box .eng-title {
+            font-size: 15px;
+            font-style: italic;
+            font-family: "Times New Roman", Times, serif;
+            opacity: 0.85;
+            margin-bottom: 18px;
+        }
+
+        .banner-text-box .details p {
+            font-size: 14.5px;
+            line-height: 1.8;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .banner-text-box .details strong {
+            font-weight: normal;
+            opacity: 0.8;
+        }
+
+        .research-direction {
+            margin-top: 18px;
+        }
+
+        .research-direction ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .research-direction li {
-            background-color: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 4px 14px; border-radius: 20px; font-size: 13.5px;
-            white-space: nowrap; backdrop-filter: blur(4px); 
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13.5px;
+            white-space: nowrap;
+            backdrop-filter: blur(4px); 
         }
 
         .avatar-box {
-            width: 140px; height: 185px; border: 3px solid rgba(255,255,255,0.4); 
-            flex-shrink: 0; overflow: hidden; border-radius: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            width: 140px;
+            height: 185px;
+            border: 3px solid rgba(255,255,255,0.4); 
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 标签导航 */
-        .tab-nav { background-color: #fff; border-bottom: 1px solid #e5e5e5; }
-        .tab-list { display: flex; list-style: none; gap: 0; }
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tab-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .tab-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
         .tab-item {
-            padding: 16px 30px; cursor: pointer; font-size: 18px; font-weight: 500; 
-            color: #444; transition: all 0.2s; border-bottom: 3px solid transparent; margin-bottom: -1px;
+            padding: 16px 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500; 
+            color: #444;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            white-space: nowrap;
         }
-        .tab-item:hover { color: #921b22; background-color: #fdf8f8; }
-        .tab-item.active { color: #921b22; border-bottom-color: #921b22; font-weight: bold; }
 
-        /* 主内容区域与背景图 */
-        .main-content {
-            background-color: #fff; margin: 20px auto; padding: 30px 40px;
-            min-height: 500px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: relative; 
+        .tab-item:hover {
+            color: #921b22;
+            background-color: #fdf8f8;
         }
+
+        .tab-item.active {
+            color: #921b22;
+            border-bottom-color: #921b22;
+            font-weight: bold;
+        }
+
+        .main-content {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px 40px;
+            min-height: 500px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative; 
+        }
+
         .main-content::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("huaxi.png"); background-repeat: no-repeat;
-            background-position: center; background-size: cover; opacity: 0.15; 
-            z-index: 0; pointer-events: none; 
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("huaxi.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            opacity: 0.15; 
+            z-index: 0;
+            pointer-events: none; 
         }
         
-        .tab-pane { display: none; position: relative; z-index: 1; }
-        .tab-pane.active { display: block; }
+        .tab-pane { 
+            display: none; 
+            position: relative; 
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
 
-        /* 卡片样式 */
+        .tab-pane.active { 
+            display: block; 
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .content-card {
-            background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); 
-            border: 1px solid rgba(0,0,0,0.05); border-radius: 8px; padding: 24px 30px; 
-            margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px); 
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 24px 30px; 
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
         }
-        .content-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); background-color: rgba(255, 255, 255, 0.95); }
-        .content-card h3 {
-            margin-top: 0; margin-bottom: 16px; padding-bottom: 12px;
-            border-bottom: 1px dashed #e5e5e5; color: #921b22; font-size: 18px;
-        }
-        .content-card p:last-child, .content-card ul:last-child, .content-card .gallery-carousel { margin-bottom: 0; }
 
-        /* About Us 图文排版 */
-        .about-hero { display: flex; gap: 30px; align-items: center; }
-        .about-text { flex: 1; }
-        .about-text h2 {
-            font-size: 28px; color: #38080a; margin-bottom: 15px; font-weight: 800;
-            font-family: "Playfair Display", "Helvetica Neue", Arial, sans-serif;
+        .content-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            background-color: rgba(255, 255, 255, 0.95);
         }
-        .about-text p { text-align: justify; line-height: 1.8; font-size: 15px; color: #444; margin-bottom: 15px; }
+
+        .content-card h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #e5e5e5;
+            color: #921b22;
+            font-size: 18px;
+        }
+
+        .content-card p:last-child,
+        .content-card ul:last-child,
+        .content-card .gallery-carousel {
+            margin-bottom: 0;
+        }
+
+        .about-hero {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 28px;
+            color: #38080a;
+            margin-bottom: 15px;
+            font-weight: 800;
+            font-family: "Playfair Display", "Helvetica Neue", Arial, sans-serif;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .about-text p {
+            text-align: justify;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
         .about-image {
-            width: 340px; flex-shrink: 0; border-radius: 8px; overflow: hidden;
+            width: 340px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
             box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
-        .about-image img { width: 100%; height: auto; display: block; }
 
-        .tab-pane p { margin-bottom: 12px; text-align: justify; }
-        .tab-pane ul { margin-left: 22px; margin-bottom: 15px; }
-        .tab-pane li { margin-bottom: 6px; }
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-        .experience-list { list-style: none; margin-left: 0; padding-left: 0; }
-        .experience-list li { margin-bottom: 8px; font-size: 16px; line-height: 1.8; }
+        .tab-pane p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .tab-pane ul {
+            margin-left: 22px;
+            margin-bottom: 15px;
+        }
+
+        .tab-pane li {
+            margin-bottom: 6px;
+        }
+
+        .experience-list {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .experience-list li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
 
         .footer {
-            background-color: #f0f0f0; border-top: 1px solid #e0e0e0;
-            padding: 20px 0; text-align: center; font-size: 13px; color: #888; margin-top: 30px;
+            background-color: #f0f0f0;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 30px;
         }
-        .update-time { text-align: right; font-size: 12px; color: #999; margin-top: 20px; }
-        .tab-pane a { color: #921b22; text-decoration: none; }
-        .tab-pane a:hover { text-decoration: underline; }
 
-        /* 照片横向滑动容器 */
+        .update-time {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .tab-pane a {
+            color: #921b22;
+            text-decoration: none;
+        }
+
+        .tab-pane a:hover {
+            text-decoration: underline;
+        }
+
         .gallery-carousel {
-            display: flex; overflow-x: auto; gap: 20px; padding: 5px 5px 20px 5px; scroll-snap-type: x mandatory; 
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 5px 5px 20px 5px;
+            scroll-snap-type: x mandatory; 
         }
-        .gallery-item {
-            flex: 0 0 280px; height: 200px; border-radius: 6px; overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; scroll-snap-align: start; 
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
-        .gallery-carousel::-webkit-scrollbar { height: 6px; }
-        .gallery-carousel::-webkit-scrollbar-track { background: transparent; }
-        .gallery-carousel::-webkit-scrollbar-thumb { background: #d4a96a; border-radius: 4px; }
-        .gallery-carousel::-webkit-scrollbar-thumb:hover { background: #921b22; }
 
-        /* 论文卡片 */
-        .paper-list { margin-left: 0; padding-left: 0; list-style: none; counter-reset: paper-counter; }
+        .gallery-item {
+            flex: 0 0 280px;
+            height: 200px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            scroll-snap-align: start; 
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .gallery-carousel::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .gallery-carousel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .gallery-carousel::-webkit-scrollbar-thumb {
+            background: #d4a96a;
+            border-radius: 4px;
+        }
+
+        .gallery-carousel::-webkit-scrollbar-thumb:hover {
+            background: #921b22;
+        }
+
+        .paper-list {
+            margin-left: 0;
+            padding-left: 0;
+            list-style: none;
+            counter-reset: paper-counter;
+        }
+
         .paper-list li { 
-            position: relative; padding: 16px 20px 16px 50px; margin-bottom: 15px; 
-            background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
-            border: 1px solid rgba(0,0,0,0.05); border-radius: 8px; font-size: 14.5px; line-height: 1.7;
-            text-align: justify; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
+            padding: 16px 20px 16px 50px;
+            margin-bottom: 15px; 
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 8px;
+            font-size: 14.5px;
+            line-height: 1.7;
+            text-align: justify;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
+
         .paper-list li::before {
-            counter-increment: paper-counter; content: "[" counter(paper-counter) "]";
-            position: absolute; left: 18px; top: 16px; color: #921b22; font-weight: 600; font-size: 15px;
+            counter-increment: paper-counter;
+            content: "[" counter(paper-counter) "]";
+            position: absolute;
+            left: 18px;
+            top: 16px;
+            color: #921b22;
+            font-weight: 600;
+            font-size: 15px;
         }
-        .paper-list li:hover { background-color: rgba(255, 255, 255, 0.95); border-color: #e0e0e0; box-shadow: 0 5px 15px rgba(0,0,0,0.06); transform: translateY(-2px); }
-        .paper-list strong { color: #921b22; font-weight: 600; }
-        .paper-list i { font-style: italic; }
+
+        .paper-list li:hover {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-color: #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            transform: translateY(-2px);
+        }
+
+        .paper-list strong {
+            color: #921b22;
+            font-weight: 600;
+        }
+
+        .paper-list i {
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .landing-title {
+                font-size: 32px;
+            }
+
+            .landing-subtitle {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .landing-bottom-left {
+                left: 30px;
+                bottom: 40px;
+            }
+
+            .landing-top-right {
+                right: 30px;
+                top: 30px;
+            }
+
+            .profile-header {
+                flex-direction: column-reverse;
+                gap: 25px;
+                padding: 30px 0 50px 0;
+                text-align: center;
+            }
+
+            .banner-text-box {
+                border-left: none;
+                padding-left: 0;
+                border-top: 3px solid #d4a96a;
+                padding-top: 20px;
+            }
+
+            .research-direction ul {
+                justify-content: center;
+            }
+
+            .tab-nav .container {
+                padding: 0;
+            }
+
+            .tab-list { 
+                overflow-x: auto; 
+                padding: 0 20px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .tab-item {
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+
+            .main-content {
+                padding: 20px;
+                margin: 15px auto;
+            }
+
+            .about-hero {
+                flex-direction: column-reverse;
+            }
+
+            .about-image {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .avatar-box {
+                width: 120px;
+                height: 160px;
+            }
+
+            .banner-text-box h1 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .landing-title {
+                font-size: 26px;
+            }
+
+            .enter-btn {
+                padding: 10px 24px;
+                font-size: 13px;
+            }
+
+            .content-card {
+                padding: 18px 20px;
+            }
+
+            .paper-list li {
+                padding: 14px 16px 14px 42px;
+                font-size: 13.5px;
+            }
+
+            .paper-list li::before {
+                left: 14px;
+                top: 14px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 启动页：全屏医疗科技蓝 & 细胞悬浮 -->
     <div id="landing-page">
-        <!-- 发光细胞画布 -->
         <canvas id="landingCanvas"></canvas>
-        
-        <div class="landing-content">
-            <div class="landing-title">双引擎 · 重新定义CAR-T的未来</div>
-            <div class="landing-subtitle">WANG YONGSHENG LAB</div>
-            <div class="click-hint">点击屏幕任意位置进入探索 <span>►</span></div>
+        <div class="landing-top-right">
+            <span class="enter-btn" id="enterBtn">About Us</span>
+        </div>
+        <div class="landing-bottom-left">
+            <div class="landing-title">Wangyongsheng LAB</div>
+            <div class="landing-subtitle">Chimeric Antigen Receptor Therapy</div>
         </div>
     </div>
 
-    <!-- 主页内容 -->
     <div class="top-brand-bar">
         <div class="container">
             <a href="index.html" class="lab-name">Wang Yongsheng Lab</a>
-            <a href="#" class="about-us-link" onclick="document.querySelector('[data-tab=\'about\']').click(); window.scrollTo(0,0); return false;">About Us</a>
+            <a href="#" class="about-us-link" onclick="switchTab('about'); return false;">About Us</a>
         </div>
     </div>
     
@@ -344,11 +715,12 @@
                     </div>
                 </div>
                 <div class="avatar-box">
-                    <img src="图片 1.jpg" alt="王永生">
+                    <img src="图片 1.jpg" alt="王永生教授" loading="lazy">
                 </div>
             </div>
+        </div>
+    </div>
 
-    <!-- 标签导航 -->
     <div class="tab-nav">
         <div class="container">
             <ul class="tab-list">
@@ -362,12 +734,11 @@
         </div>
     </div>
 
-    <!-- 主内容 -->
     <div class="container">
         <div class="main-content">
 
-            <!-- 关于我们 -->
             <div class="tab-pane active" id="about">
+                
                 <div class="content-card">
                     <div class="about-hero">
                         <div class="about-text">
@@ -375,7 +746,7 @@
                             <p>欢迎来到四川大学华西医院王永生教授课题组主页（Wang Yongsheng Lab）。我们的研究致力于CAR-T细胞疗法，目前开发以CD19、HER2、BCMA、ROR1、VEGFR1等为靶点的创新型CAR-T细胞治疗策略，致力于为晚期肿瘤患者提供更安全、更有效的新一代免疫治疗方案。</p>
                         </div>
                         <div class="about-image">
-                            <img src="huaxi2.png" alt="Lab Illustration">
+                            <img src="huaxi2.png" alt="实验室示意图" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -394,7 +765,6 @@
                 </div>
             </div>
 
-            <!-- 个人简介 -->
             <div class="tab-pane" id="intro">
                 <div class="content-card">
                     <h3>教育与工作经历</h3>
@@ -421,7 +791,6 @@
                 </div>
             </div>
 
-            <!-- 研究成果 -->
             <div class="tab-pane" id="achievements">
                 <div class="content-card">
                     <h3>科研项目</h3>
@@ -436,7 +805,7 @@
                 </div>
                 <div class="content-card">
                     <h3>学术论文</h3>
-                    <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇），J Clin Oncol，Ann Oncol，Cancer Res，Clin Cancer Res（2篇），Mol Ther，JITC等发表研究论文100多篇。</p>
+                    <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇）、J Clin Oncol、Ann Oncol、Cancer Res、Clin Cancer Res（2篇）、Mol Ther、JITC等发表研究论文100多篇。</p>
                 </div>
                 <div class="content-card">
                     <h3>专利与转化</h3>
@@ -448,59 +817,56 @@
                 </div>
                 <div class="content-card">
                     <h3>临床试验</h3>
-                    <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
+                    <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项，新型CAR-T细胞开展临床试验6项。</p>
                 </div>
             </div>
 
-            <!-- 相关论文 -->
             <div class="tab-pane" id="news">
                 <ol class="paper-list">
                     <li>Lei YN, Qin D, He Y, Shu P, Zhang B, Chen Y, Liu N, He X, Zhang YG, Chang MY, Li X, Guo FC, Bai LL, Feng M, Wang FJ, Gao Y, Zhu B, Li Z, Li D, <strong>Wang YS</strong>, Wei Y. Parallel 4-1BB Signaling in Dual DLL3/CD56-Targeting CAR-T Cells Triggers Adaptive Proliferation and Functional Persistence to Eradicate Small Cell Lung Cancer. <strong>Cancer Res</strong>. 2026 Jul 23. doi: 10.1158/0008-5472.CAN-25-5261. Epub ahead of print. </li>
-                    <li>Zhou H, Zhao H, Hou X, <strong>Wang Y</strong>, He Z, Li Y, Ma Y, Zhao Y, Huang Y, Chen L, Xiao S, Zhu H, Zhu Y, Fang W, Zhang L, Yang Y. Izalontamab Brengitecan in Locally Advanced or Metastatic Non-Small Cell Lung Cancer With Actionable Genomic Alterations Outside of Classical <i>EGFR</i> Mutations: A Phase Ib Study. <strong>J Clin Oncol</strong>. 2026 Apr;44(10):893-902. </li>
-                    <li>Shu P, Guo F, Qin D, Zou L, Ma Q, Zhang B, Gao G, Chen Y, He X, Jiang M, Liu N, Zhou K, Zhao J, Lei Y, Gao Y, Zhang Y, Zeng Y, Feng M, Li X, Li D, <strong>Wang Y</strong>. CXCR4-modification enhances CAR-T efficacy by improving tumor tracking and bone marrow homing in B-cell malignancies. <strong>Signal Transduct Target Ther</strong>. 2026 Jan 28;11(1):38. </li>
-                    <li>Feng M, Ma Q, Zhang B, Chen Y, Yang Y, He X, Zeng Y, Jing M, Ou X, Liu Y, Li Q, Liao W, Li X, Tan S, Qin D, Li D, Li Q, <strong>Wang Y</strong>. Targeting the poliovirus receptor to activate T cells and induce myeloid-derived suppressor cells to differentiate to pro-inflammatory macrophages via the IFN-γ-p-STAT1-IRF8 axis in cancer therapy. <strong>Cell Death Differ</strong>. 2025 Oct;32(10):1791-1805. </li>
-                    <li>Li W, <strong>Wang Y</strong>, Xiong A, Gao G, Song Z, Zhang Y, Huang D, Ye F, Wang Q, Li Z, Liu J, Xu C, Sun Y, Liu X, Zhou F, Zhou C. First-in-human, phase 1 dose-escalation and dose-expansion study of a RET inhibitor SY-5007 in patients with advanced RET-altered solid tumors. <strong>Signal Transduct Target Ther</strong>. 2024 Nov 4;9(1):300. </li>
-                    <li>Zhang B, Hu M, Ma Q, Li K, Li X, He X, Shu P, Chen Y, Gao G, Qin D, Guo F, Zhao J, Liu N, Zhou K, Feng M, Liao W, Li D, Wang X, <strong>Wang Y</strong>. Optimized CAR-T therapy based on spatiotemporal changes and chemotactic mechanisms of MDSCs induced by hypofractionated radiotherapy. <strong>Mol Ther</strong>. 2023 Jul 5;31(7):2105-2119. </li>
-                    <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang Y</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <strong>Signal Transduct Target Ther</strong>. 2022 Nov 19;7(1):380. </li>
-                    <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang Y</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <strong>Signal Transduct Target Ther</strong>. 2021 Oct 7;6(1):362.</li>
+                    <li>Zhou H, Zhao H, Hou X, <strong>Wang YS</strong>, He Z, Li Y, Ma Y, Zhao Y, Huang Y, Chen L, Xiao S, Zhu H, Zhu Y, Fang W, Zhang L, Yang Y. Izalontamab Brengitecan in Locally Advanced or Metastatic Non-Small Cell Lung Cancer With Actionable Genomic Alterations Outside of Classical <i>EGFR</i> Mutations: A Phase Ib Study. <strong>J Clin Oncol</strong>. 2026 Apr;44(10):893-902. </li>
+                    <li>Shu P, Guo F, Qin D, Zou L, Ma Q, Zhang B, Gao G, Chen Y, He X, Jiang M, Liu N, Zhou K, Zhao J, Lei Y, Gao Y, Zhang Y, Zeng Y, Feng M, Li X, Li D, <strong>Wang YS</strong>. CXCR4-modification enhances CAR-T efficacy by improving tumor tracking and bone marrow homing in B-cell malignancies. <strong>Signal Transduct Target Ther</strong>. 2026 Jan 28;11(1):38. </li>
+                    <li>Feng M, Ma Q, Zhang B, Chen Y, Yang Y, He X, Zeng Y, Jing M, Ou X, Liu Y, Li Q, Liao W, Li X, Tan S, Qin D, Li D, Li Q, <strong>Wang YS</strong>. Targeting the poliovirus receptor to activate T cells and induce myeloid-derived suppressor cells to differentiate to pro-inflammatory macrophages via the IFN-γ-p-STAT1-IRF8 axis in cancer therapy. <strong>Cell Death Differ</strong>. 2025 Oct;32(10):1791-1805. </li>
+                    <li>Li W, <strong>Wang YS</strong>, Xiong A, Gao G, Song Z, Zhang Y, Huang D, Ye F, Wang Q, Li Z, Liu J, Xu C, Sun Y, Liu X, Zhou F, Zhou C. First-in-human, phase 1 dose-escalation and dose-expansion study of a RET inhibitor SY-5007 in patients with advanced RET-altered solid tumors. <strong>Signal Transduct Target Ther</strong>. 2024 Nov 4;9(1):300. </li>
+                    <li>Zhang B, Hu M, Ma Q, Li K, Li X, He X, Shu P, Chen Y, Gao G, Qin D, Guo F, Zhao J, Liu N, Zhou K, Feng M, Liao W, Li D, Wang X, <strong>Wang YS</strong>. Optimized CAR-T therapy based on spatiotemporal changes and chemotactic mechanisms of MDSCs induced by hypofractionated radiotherapy. <strong>Mol Ther</strong>. 2023 Jul 5;31(7):2105-2119. </li>
+                    <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang YS</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <strong>Signal Transduct Target Ther</strong>. 2022 Nov 19;7(1):380. </li>
+                    <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang YS</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <strong>Signal Transduct Target Ther</strong>. 2021 Oct 7;6(1):362.</li>
                 </ol>
             </div>
 
-            <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
                 <div class="content-card">
                     <h3>毕业照</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item"><img src="images/毕业照/1.jpg" alt="毕业照1"></div>
-                        <div class="gallery-item"><img src="images/毕业照/2.jpg" alt="毕业照2"></div>
-                        <div class="gallery-item"><img src="images/毕业照/3.jpg" alt="毕业照3"></div>
+                        <div class="gallery-item"><img src="images/毕业照/1.jpg" alt="毕业照1" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/毕业照/2.jpg" alt="毕业照2" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/毕业照/3.jpg" alt="毕业照3" loading="lazy"></div>
                     </div>
                 </div>
                 <div class="content-card">
                     <h3>实验室活动</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item"><img src="images/实验室活动/1.jpg" alt="活动1"></div>
-                        <div class="gallery-item"><img src="images/实验室活动/2.jpg" alt="活动2"></div>
-                        <div class="gallery-item"><img src="images/实验室活动/3.jpg" alt="活动3"></div>
-                        <div class="gallery-item"><img src="images/实验室活动/4.jpg" alt="活动4"></div>
-                        <div class="gallery-item"><img src="images/实验室活动/5.jpg" alt="活动5"></div>
-                        <div class="gallery-item"><img src="images/实验室活动/6.jpg" alt="活动6"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/1.jpg" alt="活动1" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/2.jpg" alt="活动2" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/3.jpg" alt="活动3" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/4.jpg" alt="活动4" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/5.jpg" alt="活动5" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/6.jpg" alt="活动6" loading="lazy"></div>
                     </div>
                 </div>
                 <div class="content-card">
                     <h3>细胞治疗团队</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item"><img src="images/细胞治疗团队/1.jpg" alt="团队1"></div>
-                        <div class="gallery-item"><img src="images/细胞治疗团队/2.jpg" alt="团队2"></div>
-                        <div class="gallery-item"><img src="images/细胞治疗团队/3.jpg" alt="团队3"></div>
-                        <div class="gallery-item"><img src="images/细胞治疗团队/4.jpg" alt="团队4"></div>
-                        <div class="gallery-item"><img src="images/细胞治疗团队/5.jpg" alt="团队5"></div>
-                        <div class="gallery-item"><img src="images/细胞治疗团队/6.jpg" alt="团队6"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/1.jpg" alt="团队1" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/2.jpg" alt="团队2" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/3.jpg" alt="团队3" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/4.jpg" alt="团队4" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/5.jpg" alt="团队5" loading="lazy"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/6.jpg" alt="团队6" loading="lazy"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 招聘信息 -->
             <div class="tab-pane" id="recruit">
                 <div class="content-card">
                     <h3>博士后招聘</h3>
@@ -538,7 +904,6 @@
         </div>
     </div>
 
-    <!-- 底部 -->
     <div class="footer">
         <div class="container">
             <p>© 2026 四川大学华西医院 王永生课题组 版权所有</p>
@@ -546,23 +911,35 @@
     </div>
 
     <script>
-        // ----------------------------------------------------
-        // 1. 任意点击拉开启动页的交互逻辑
-        // ----------------------------------------------------
+        function switchTab(tabId) {
+            const targetTab = document.querySelector(`[data-tab="${tabId}"]`);
+            if (targetTab) targetTab.click();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
         const landingPage = document.getElementById('landing-page');
+        let lAnimationFrameId = null;
+
+        function enterMainPage() {
+            landingPage.classList.add('zoom-out');
+            document.body.style.overflow = 'auto';
+            
+            switchTab('about');
+            
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+                if (lAnimationFrameId) {
+                    cancelAnimationFrame(lAnimationFrameId);
+                    lAnimationFrameId = null;
+                }
+            }, 1200);
+        }
         
-        // 现在点击整个页面任意地方都会触发！
         landingPage.addEventListener('click', function(e) {
-            e.preventDefault(); 
-            landingPage.classList.add('slide-up');
-            document.body.style.overflow = 'auto'; 
-            document.querySelector('[data-tab=\'about\']').click();
-            setTimeout(() => { landingPage.style.display = 'none'; }, 800);
+            e.preventDefault();
+            enterMainPage();
         });
 
-        // ----------------------------------------------------
-        // 2. 标签页切换功能
-        // ----------------------------------------------------
         const tabItems = document.querySelectorAll('.tab-item');
         const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -570,15 +947,15 @@
             item.addEventListener('click', () => {
                 tabItems.forEach(i => i.classList.remove('active'));
                 tabPanes.forEach(p => p.classList.remove('active'));
+
                 item.classList.add('active');
                 const tabId = item.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
+                
+                window.scrollTo({top: 0, behavior: 'smooth'});
             });
         });
 
-        // ----------------------------------------------------
-        // 3. 启动页：科技蓝 发光细胞游离动画
-        // ----------------------------------------------------
         const landingCanvas = document.getElementById('landingCanvas');
         const landingCtx = landingCanvas.getContext('2d');
         let lWidth, lHeight;
@@ -587,60 +964,65 @@
         function initLandingCanvas() {
             lWidth = landingCanvas.width = window.innerWidth;
             lHeight = landingCanvas.height = window.innerHeight;
-            // 细胞数量适中即可，展现高级感
-            const particleCount = Math.floor((lWidth * lHeight) / 15000); 
+            
+            const particleCount = Math.floor((lWidth * lHeight) / 10000); 
             lParticles = [];
             for (let i = 0; i < particleCount; i++) {
-                lParticles.push(new LandingCell());
+                lParticles.push(new LandingParticle());
             }
         }
 
-        class LandingCell {
+        class LandingParticle {
             constructor() {
                 this.x = Math.random() * lWidth;
                 this.y = Math.random() * lHeight;
-                // 游动速度更缓慢，更有悬浮感
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                // 半径调大，模拟细胞形态
-                this.radius = Math.random() * 25 + 10;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
             }
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (this.x < -50 || this.x > lWidth + 50) this.vx = -this.vx;
-                if (this.y < -50 || this.y > lHeight + 50) this.vy = -this.vy;
+                if (this.x < 0 || this.x > lWidth) this.vx = -this.vx;
+                if (this.y < 0 || this.y > lHeight) this.vy = -this.vy;
             }
             draw() {
-                // 利用径向渐变绘制发光的细胞效果
-                const gradient = landingCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)'); // 细胞核稍亮
-                gradient.addColorStop(0.3, 'rgba(125, 211, 252, 0.4)'); // 细胞质科技蓝
-                gradient.addColorStop(1, 'rgba(125, 211, 252, 0)'); // 边缘完全透明融入背景
-
                 landingCtx.beginPath();
                 landingCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                landingCtx.fillStyle = gradient;
+                landingCtx.fillStyle = 'rgba(212, 169, 106, 0.7)'; 
                 landingCtx.fill();
             }
         }
 
         function animateLanding() {
             landingCtx.clearRect(0, 0, lWidth, lHeight);
+            
             for (let i = 0; i < lParticles.length; i++) {
                 lParticles[i].update();
                 lParticles[i].draw();
+                
+                for (let j = i + 1; j < lParticles.length; j++) {
+                    const dx = lParticles[i].x - lParticles[j].x;
+                    const dy = lParticles[i].y - lParticles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 150) {
+                        landingCtx.beginPath();
+                        landingCtx.moveTo(lParticles[i].x, lParticles[i].y);
+                        landingCtx.lineTo(lParticles[j].x, lParticles[j].y);
+                        landingCtx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist/150) * 0.3})`; 
+                        landingCtx.lineWidth = 0.8;
+                        landingCtx.stroke();
+                    }
+                }
             }
-            requestAnimationFrame(animateLanding);
+            lAnimationFrameId = requestAnimationFrame(animateLanding);
         }
 
         window.addEventListener('resize', initLandingCanvas);
         initLandingCanvas();
         animateLanding();
 
-        // ----------------------------------------------------
-        // 4. 个人主页横幅：背景粒子动画 (保持原有华西金点阵)
-        // ----------------------------------------------------
         const headerCanvas = document.getElementById('particleCanvas');
         const headerCtx = headerCanvas.getContext('2d');
         let hWidth, hHeight;
@@ -650,6 +1032,7 @@
             const header = document.querySelector('.header-wrap');
             hWidth = headerCanvas.width = header.offsetWidth;
             hHeight = headerCanvas.height = header.offsetHeight;
+            
             const particleCount = Math.floor((hWidth * hHeight) / 12000); 
             hParticles = [];
             for (let i = 0; i < particleCount; i++) {
@@ -681,13 +1064,16 @@
 
         function animateHeader() {
             headerCtx.clearRect(0, 0, hWidth, hHeight);
+            
             for (let i = 0; i < hParticles.length; i++) {
                 hParticles[i].update();
                 hParticles[i].draw();
+                
                 for (let j = i + 1; j < hParticles.length; j++) {
                     const dx = hParticles[i].x - hParticles[j].x;
                     const dy = hParticles[i].y - hParticles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
+                    
                     if (dist < 120) {
                         headerCtx.beginPath();
                         headerCtx.moveTo(hParticles[i].x, hParticles[i].y);
@@ -701,9 +1087,17 @@
             requestAnimationFrame(animateHeader);
         }
 
-        window.addEventListener('resize', initHeaderCanvas);
-        initHeaderCanvas();
-        animateHeader();
+        window.addEventListener('resize', () => {
+            initHeaderCanvas();
+            if (!landingPage.classList.contains('zoom-out')) {
+                initLandingCanvas();
+            }
+        });
+        
+        window.addEventListener('load', () => {
+            initHeaderCanvas();
+            animateHeader();
+        });
     </script>
 </body>
 </html>
