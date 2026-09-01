@@ -20,7 +20,7 @@
             line-height: 1.7;
         }
 
-        /* 👇 修改点：顶部深色品牌栏与字体升级 👇 */
+        /* 顶部品牌栏 */
         .top-brand-bar {
             background-color: #38080a; 
             height: 55px;
@@ -34,32 +34,42 @@
             width: 100%;
         }
 
-        /* 升级版学术风字体与链接样式 */
         .lab-name {
             color: #d4a96a; 
-            font-size: 23px; /* 稍微调大字号 */
-            font-family: "Playfair Display", "Georgia", "Times New Roman", serif; /* 更高级的英文衬线字体组合 */
+            font-size: 23px; 
+            font-family: "Playfair Display", "Georgia", "Times New Roman", serif; 
             font-style: italic;
             font-weight: 600;
             letter-spacing: 1.5px;
-            text-decoration: none; /* 去掉链接的下划线 */
-            transition: color 0.3s ease; /* 增加平滑的过渡动画 */
+            text-decoration: none; 
+            transition: color 0.3s ease; 
         }
 
-        /* 鼠标悬停时字体变亮 */
         .lab-name:hover {
-            color: #fce1b3; /* 更明亮的金色 */
+            color: #fce1b3; 
         }
-        /* 👆 品牌栏修改结束 👆 */
 
-        /* 顶部横幅 */
+        /* 👇 修改点：顶部横幅加入动画画布层叠控制 👇 */
         .header-wrap {
+            position: relative; /* 开启相对定位 */
             background-color: #921b22; 
             background-image: radial-gradient(circle at 80% 50%, #9d1b22, #7a1116);
             border-bottom: 4px solid #d4a96a; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
         }
+
+        /* 这是科幻粒子动画的画布 */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* 垫在最底层 */
+            pointer-events: none; /* 防止挡住鼠标点击 */
+        }
+        /* 👆 修改结束 👆 */
         
         .container {
             max-width: 1000px;
@@ -67,8 +77,10 @@
             padding: 0 20px;
         }
 
-        /* 顶部排版对齐调整 */
+        /* 确保内容在画布上方 */
         .profile-header {
+            position: relative;
+            z-index: 1; /* 盖住动画层 */
             display: flex;
             gap: 40px;
             padding: 40px 0;
@@ -88,6 +100,7 @@
             font-weight: bold;
             margin-bottom: 5px;
             letter-spacing: 2px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 增加文字阴影使其更清晰 */
         }
 
         .banner-text-box .eng-title {
@@ -102,6 +115,7 @@
             font-size: 14.5px;
             line-height: 1.8;
             opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
         
         .banner-text-box .details strong {
@@ -121,12 +135,13 @@
         }
 
         .research-direction li {
-            background-color: rgba(255, 255, 255, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 0, 0, 0.25); /* 加深了一点背景让字更清楚 */
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 4px 14px;
             border-radius: 20px;
             font-size: 13.5px;
             white-space: nowrap;
+            backdrop-filter: blur(4px); /* 给标签也加一点毛玻璃 */
         }
 
         .avatar-box {
@@ -136,7 +151,7 @@
             flex-shrink: 0;
             overflow: hidden;
             border-radius: 4px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
 
         .avatar-box img {
@@ -189,7 +204,6 @@
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: relative; 
-            z-index: 1;
         }
 
         .main-content::after {
@@ -204,14 +218,21 @@
             background-position: center; 
             background-size: cover; 
             opacity: 0.15; 
-            z-index: -1; 
+            z-index: 0; 
             pointer-events: none; 
         }
+        
+        .tab-pane { 
+            display: none; 
+            position: relative; 
+            z-index: 1; 
+        }
+        .tab-pane.active { display: block; }
 
         /* 浅灰色背景卡片样式 */
         .content-card {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(5px); 
             border: 1px solid rgba(0,0,0,0.05); 
             border-radius: 8px; 
             padding: 24px 30px; 
@@ -222,7 +243,7 @@
 
         .content-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.95); 
         }
 
         .content-card h3 {
@@ -240,8 +261,6 @@
             margin-bottom: 0; 
         }
 
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
         .tab-pane p { margin-bottom: 12px; text-align: justify; }
         .tab-pane ul { margin-left: 22px; margin-bottom: 15px; }
         .tab-pane li { margin-bottom: 6px; }
@@ -263,7 +282,7 @@
         .tab-pane a { color: #921b22; text-decoration: none; }
         .tab-pane a:hover { text-decoration: underline; }
 
-        /* 照片横向滑动容器 (Carousel) */
+        /* 照片横向滑动容器 */
         .gallery-carousel {
             display: flex;
             overflow-x: auto; 
@@ -294,9 +313,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.12); 
         }
 
-        /* 滚动条样式 */
         .gallery-carousel::-webkit-scrollbar { height: 6px; }
-        .gallery-carousel::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .gallery-carousel::-webkit-scrollbar-track { background: transparent; }
         .gallery-carousel::-webkit-scrollbar-thumb { background: #d4a96a; border-radius: 4px; }
         .gallery-carousel::-webkit-scrollbar-thumb:hover { background: #921b22; }
 
@@ -347,19 +365,19 @@
 </head>
 <body>
 
-    <!-- 👇 修改点：将文字改为可点击的链接 (<a> 标签) 👇 -->
     <div class="top-brand-bar">
         <div class="container">
-            <!-- 增加 href="index.html" 使其点击后返回首页 -->
             <a href="index.html" class="lab-name">Wang Yongsheng Lab</a>
         </div>
     </div>
     
     <div class="header-wrap">
+        <!-- 👇 新增：用于渲染游离细胞粒子动画的 Canvas 👇 -->
+        <canvas id="particleCanvas"></canvas>
+        
         <div class="container">
             <div class="profile-header">
                 
-                <!-- 中间竖线与老板信息 -->
                 <div class="banner-text-box">
                     <h1>王永生 教授 / 博士生导师</h1>
                     <p class="eng-title">Principal Investigator</p>
@@ -381,7 +399,6 @@
                     </div>
                 </div>
 
-                <!-- 右侧老板头像 -->
                 <div class="avatar-box">
                     <img src="图片 1.jpg" alt="王永生">
                 </div>
@@ -640,6 +657,89 @@
                 document.getElementById(tabId).classList.add('active');
             });
         });
+
+        // 👇 新增：CAR-T细胞/游离分子粒子漂浮动画 (Canvas) 👇
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function initCanvas() {
+            const header = document.querySelector('.header-wrap');
+            // 获取头部横幅的宽高
+            width = canvas.width = header.offsetWidth;
+            height = canvas.height = header.offsetHeight;
+            
+            // 根据屏幕大小自动计算粒子数量，保证不拥挤也不稀疏
+            const particleCount = Math.floor((width * height) / 12000); 
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        class Particle {
+            constructor() {
+                // 随机位置和极缓慢的移动速度
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                // 粒子大小：模拟细胞/蛋白质复合物的差异
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                // 碰到边缘反弹
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                // 提取华西暗金色作为粒子颜色，带着微微的透明感
+                ctx.fillStyle = 'rgba(212, 169, 106, 0.6)'; 
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            // 清空画布并重新绘制
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                // 检测粒子之间的距离，模拟免疫突触/分子互作的连接
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // 当距离小于 120 像素时产生连接线
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // 连接线的颜色渐变：越近越清晰，最清晰时是微透的白色
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist/120) * 0.4})`; 
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // 监听窗口大小改变，自动重新适配
+        window.addEventListener('resize', initCanvas);
+        
+        // 启动动画
+        initCanvas();
+        animate();
+        // 👆 动画代码结束 👆
     </script>
 </body>
 </html>
