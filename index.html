@@ -20,6 +20,30 @@
             line-height: 1.7;
         }
 
+        /* 👇 新增：顶部深色品牌栏 👇 */
+        .top-brand-bar {
+            background-color: #38080a; 
+            height: 55px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .top-brand-bar .container {
+            display: flex;
+            justify-content: flex-end; 
+            width: 100%;
+        }
+
+        .lab-name {
+            color: #d4a96a; 
+            font-size: 22px;
+            font-family: "Georgia", "Times New Roman", serif; 
+            font-style: italic;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        /* 👆 品牌栏新增结束 👆 */
+
         /* 顶部横幅 */
         .header-wrap {
             background-color: #921b22; 
@@ -176,38 +200,36 @@
             pointer-events: none; 
         }
 
-        /* 👇 新增：浅灰色背景卡片样式 👇 */
+        /* 浅灰色背景卡片样式 */
         .content-card {
-            background-color: #fafafa; /* 极浅的灰色背景 */
-            border: 1px solid #f0f0f0; /* 柔和的边框 */
-            border-radius: 8px; /* 圆角 */
-            padding: 24px 30px; /* 卡片内边距 */
-            margin-bottom: 20px; /* 卡片之间的间距 */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* 极弱的阴影 */
+            background-color: #fafafa; 
+            border: 1px solid #f0f0f0; 
+            border-radius: 8px; 
+            padding: 24px 30px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
             transition: all 0.3s ease;
         }
 
         .content-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* 鼠标悬浮时阴影加深 */
-            background-color: #ffffff; /* 悬浮时背景变白 */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            background-color: #ffffff; 
         }
 
         .content-card h3 {
             margin-top: 0;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px dashed #e5e5e5; /* 标题下方加虚线分隔 */
-            color: #921b22; /* 标题变为华西红 */
+            border-bottom: 1px dashed #e5e5e5; 
+            color: #921b22; 
             font-size: 18px;
         }
 
-        /* 移除卡片底部最后一个元素的多余留白，保持完美对齐 */
         .content-card p:last-child,
         .content-card ul:last-child,
-        .content-card .gallery-grid {
+        .content-card .gallery-carousel {
             margin-bottom: 0; 
         }
-        /* 👆 卡片样式结束 👆 */
 
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
@@ -232,22 +254,43 @@
         .tab-pane a { color: #921b22; text-decoration: none; }
         .tab-pane a:hover { text-decoration: underline; }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 18px;
-            margin-top: 5px;
+        /* 👇 修改点：照片横向滑动容器 (Carousel) 👇 */
+        .gallery-carousel {
+            display: flex;
+            overflow-x: auto; 
+            gap: 20px; 
+            padding: 5px 5px 20px 5px; 
+            scroll-snap-type: x mandatory; 
         }
+        
         .gallery-item {
-            width: 100%;
-            height: 210px;
+            flex: 0 0 280px; 
+            height: 200px;
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            scroll-snap-align: start; 
         }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+        
+        .gallery-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block; 
+        }
+        
+        .gallery-item:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12); 
+        }
+
+        /* 滚动条样式 */
+        .gallery-carousel::-webkit-scrollbar { height: 6px; }
+        .gallery-carousel::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .gallery-carousel::-webkit-scrollbar-thumb { background: #d4a96a; border-radius: 4px; }
+        .gallery-carousel::-webkit-scrollbar-thumb:hover { background: #921b22; }
+        /* 👆 滑动效果样式结束 👆 */
 
         /* 论文列表单独卡片 */
         .paper-list { 
@@ -294,6 +337,14 @@
     </style>
 </head>
 <body>
+
+    <!-- 👇 新增：顶部品牌栏 👇 -->
+    <div class="top-brand-bar">
+        <div class="container">
+            <div class="lab-name">Wang Yongsheng Lab</div>
+        </div>
+    </div>
+    
     <div class="header-wrap">
         <div class="container">
             <div class="profile-header">
@@ -348,7 +399,6 @@
         <div class="main-content">
             <!-- 个人简介 -->
             <div class="tab-pane active" id="intro">
-                <!-- 用 content-card 包裹每一个独立区块 -->
                 <div class="content-card">
                     <h3>教育与工作经历</h3>
                     <ul class="experience-list">
@@ -448,9 +498,10 @@
 
             <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
+                <!-- 👇 替换为滑动结构 👇 -->
                 <div class="content-card">
                     <h3>毕业照</h3>
-                    <div class="gallery-grid">
+                    <div class="gallery-carousel">
                         <div class="gallery-item">
                             <img src="images/毕业照/1.jpg" alt="毕业照1">
                         </div>
@@ -465,7 +516,7 @@
 
                 <div class="content-card">
                     <h3>实验室活动</h3>
-                    <div class="gallery-grid">
+                    <div class="gallery-carousel">
                         <div class="gallery-item">
                             <img src="images/实验室活动/1.jpg" alt="实验室活动1">
                         </div>
@@ -489,7 +540,7 @@
 
                 <div class="content-card">
                     <h3>细胞治疗团队</h3>
-                    <div class="gallery-grid">
+                    <div class="gallery-carousel">
                         <div class="gallery-item">
                             <img src="images/细胞治疗团队/1.jpg" alt="细胞治疗团队1">
                         </div>
@@ -510,6 +561,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 👆 滑动结构替换结束 👆 -->
 
                 <div class="update-time">更新时间：2026-08-31</div>
             </div>
