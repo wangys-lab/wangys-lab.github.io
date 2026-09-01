@@ -41,11 +41,11 @@
             gap: 40px;
             padding: 40px 0;
             align-items: center; 
-            justify-content: space-between; /* 左右两端对齐 */
+            justify-content: space-between;
         }
 
         .banner-text-box {
-            border-left: 4px solid #d4a96a; /* 变成暗金色竖线 */
+            border-left: 4px solid #d4a96a; 
             padding-left: 20px;
             flex-grow: 1;
             color: #ffffff; 
@@ -148,8 +148,7 @@
             font-weight: bold; 
         }
 
-        /* 👇 修改点：替换为你上传的枫叶图 huaxi.png 👇 */
-        ./* 👇 全新升级的背景水印方案 👇 */
+        /* 主内容区域与背景水印 */
         .main-content {
             background-color: #fff;
             margin: 20px auto;
@@ -157,12 +156,10 @@
             min-height: 500px;
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            /* 关键1：开启相对定位，为了容纳下层水印 */
             position: relative; 
             z-index: 1;
         }
 
-        /* 关键2：使用伪元素单独设置背景，这样可以随意调透明度而不影响文字 */
         .main-content::after {
             content: "";
             position: absolute;
@@ -170,28 +167,50 @@
             right: 0;
             width: 100%;
             height: 100%;
-            /* 引入你的新图片 */
+            background-image: url("huaxi.png"); 
             background-repeat: no-repeat;
             background-position: right bottom; 
-            background-size: 450px auto; /* 控制图片大小，你可以根据喜好改这个数字 */
-            /* 👑 关键3：透明度魔法！0.15 代表 15% 的透明度，若隐若现最高级 */
+            background-size: 450px auto; 
             opacity: 0.15; 
-            z-index: -1; /* 把它压在文字最底下 */
-            pointer-events: none; /* 防止它挡住你复制文字或点击链接 */
+            z-index: -1; 
+            pointer-events: none; 
         }
-        /* 👆 修改结束 👆 */
+
+        /* 👇 新增：浅灰色背景卡片样式 👇 */
+        .content-card {
+            background-color: #fafafa; /* 极浅的灰色背景 */
+            border: 1px solid #f0f0f0; /* 柔和的边框 */
+            border-radius: 8px; /* 圆角 */
+            padding: 24px 30px; /* 卡片内边距 */
+            margin-bottom: 20px; /* 卡片之间的间距 */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* 极弱的阴影 */
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* 鼠标悬浮时阴影加深 */
+            background-color: #ffffff; /* 悬浮时背景变白 */
+        }
+
+        .content-card h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #e5e5e5; /* 标题下方加虚线分隔 */
+            color: #921b22; /* 标题变为华西红 */
+            font-size: 18px;
+        }
+
+        /* 移除卡片底部最后一个元素的多余留白，保持完美对齐 */
+        .content-card p:last-child,
+        .content-card ul:last-child,
+        .content-card .gallery-grid {
+            margin-bottom: 0; 
+        }
+        /* 👆 卡片样式结束 👆 */
 
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
-        .tab-pane h2 {
-            font-size: 22px; 
-            color: #921b22;
-            margin-bottom: 20px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #eee;
-            font-weight: 600;
-        }
-        .tab-pane h3 { font-size: 17px; color: #333; margin: 22px 0 10px; }
         .tab-pane p { margin-bottom: 12px; text-align: justify; }
         .tab-pane ul { margin-left: 22px; margin-bottom: 15px; }
         .tab-pane li { margin-bottom: 6px; }
@@ -213,12 +232,11 @@
         .tab-pane a { color: #921b22; text-decoration: none; }
         .tab-pane a:hover { text-decoration: underline; }
 
-        .gallery-section { margin-bottom: 32px; }
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 18px;
-            margin-top: 12px;
+            margin-top: 5px;
         }
         .gallery-item {
             width: 100%;
@@ -231,29 +249,28 @@
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
-        /* 👇 修改点：全新设计的论文卡片排版 👇 */
+        /* 论文列表单独卡片 */
         .paper-list { 
             margin-left: 0; 
             padding-left: 0;
-            list-style: none; /* 隐藏默认数字 */
-            counter-reset: paper-counter; /* 开启自定义数字计数 */
+            list-style: none; 
+            counter-reset: paper-counter; 
         }
         
         .paper-list li { 
             position: relative;
-            padding: 16px 20px 16px 50px; /* 左侧留出空位放数字 */
+            padding: 16px 20px 16px 50px; 
             margin-bottom: 15px; 
-            background-color: #fcfcfc; /* 浅灰色背景 */
-            border: 1px solid #eee; /* 浅色边框 */
-            border-radius: 8px; /* 圆角 */
+            background-color: #fcfcfc; 
+            border: 1px solid #eee; 
+            border-radius: 8px; 
             font-size: 14.5px; 
             line-height: 1.7;
             text-align: justify; 
-            transition: all 0.3s ease; /* 动画过渡 */
+            transition: all 0.3s ease; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        /* 自动生成的红色学术序号如 [1], [2] */
         .paper-list li::before {
             counter-increment: paper-counter;
             content: "[" counter(paper-counter) "]";
@@ -265,7 +282,6 @@
             font-size: 15px;
         }
 
-        /* 鼠标悬停时的浮动和阴影效果 */
         .paper-list li:hover {
             background-color: #fff;
             border-color: #e0e0e0;
@@ -275,7 +291,6 @@
 
         .paper-list strong { color: #921b22; font-weight: 600; }
         .paper-list i { font-style: italic; }
-        /* 👆 论文卡片修改结束 👆 */
     </style>
 </head>
 <body>
@@ -333,71 +348,90 @@
         <div class="main-content">
             <!-- 个人简介 -->
             <div class="tab-pane active" id="intro">
-    
-                <h3>教育与工作经历</h3>
-                <ul class="experience-list">
-                    <li>1998年毕业于重庆医科大学</li>
-                    <li>1998-2002年在泸州医学院附属医院工作</li>
-                    <li>2002-2007年获四川大学肿瘤学博士学位</li>
-                    <li>2007-2009年在生物治疗国家重点实验室从事博士后研究</li>
-                    <li>2009年至今任职于华西医院胸部肿瘤科，同时作为生物治疗国家重点实验室项目负责人，开展肿瘤分子靶向及免疫治疗的基础与临床转化研究</li>
-                    <li>2013年任华西医院胸部肿瘤科副主任</li>
-                    <li>2015-2016年在美国DUKE大学访学一年</li>
-                    <li>2018年2月起任华西医院国家药物临床试验机构/临床药理研究所主任</li>
-                    <li>2021年3月起任国家药监局创新药物临床研究与评价重点实验室主任</li>
-                    <li>2022年6月起任华西医院肿瘤中心副主任、兼临床研究部副部长</li>
-                </ul>
+                <!-- 用 content-card 包裹每一个独立区块 -->
+                <div class="content-card">
+                    <h3>教育与工作经历</h3>
+                    <ul class="experience-list">
+                        <li>1998年毕业于重庆医科大学</li>
+                        <li>1998-2002年在泸州医学院附属医院工作</li>
+                        <li>2002-2007年获四川大学肿瘤学博士学位</li>
+                        <li>2007-2009年在生物治疗国家重点实验室从事博士后研究</li>
+                        <li>2009年至今任职于华西医院胸部肿瘤科，同时作为生物治疗国家重点实验室项目负责人，开展肿瘤分子靶向及免疫治疗的基础与临床转化研究</li>
+                        <li>2013年任华西医院胸部肿瘤科副主任</li>
+                        <li>2015-2016年在美国DUKE大学访学一年</li>
+                        <li>2018年2月起任华西医院国家药物临床试验机构/临床药理研究所主任</li>
+                        <li>2021年3月起任国家药监局创新药物临床研究与评价重点实验室主任</li>
+                        <li>2022年6月起任华西医院肿瘤中心副主任、兼临床研究部副部长</li>
+                    </ul>
+                </div>
 
-                <h3>学术任职</h3>
-                <ul>
-                    <li>中国抗癌协会中西医整合肿瘤专业委员会副主任委员</li>
-                    <li>中国生物医药技术协会临床研究专业委员会副主任委员</li>
-                    <li>中国临床肿瘤学会(CSCO)免疫治疗专家委员会委员</li>
-                    <li>四川省医师协会药物临床试验研究者分会会长</li>
-                    <li>四川省抗癌协会老年肿瘤专委会主任委员</li>
-                    <li>四川省医促会肿瘤学MDT专委会主任委员</li>
-                </ul>
+                <div class="content-card">
+                    <h3>学术任职</h3>
+                    <ul>
+                        <li>中国抗癌协会中西医整合肿瘤专业委员会副主任委员</li>
+                        <li>中国生物医药技术协会临床研究专业委员会副主任委员</li>
+                        <li>中国临床肿瘤学会(CSCO)免疫治疗专家委员会委员</li>
+                        <li>四川省医师协会药物临床试验研究者分会会长</li>
+                        <li>四川省抗癌协会老年肿瘤专委会主任委员</li>
+                        <li>四川省医促会肿瘤学MDT专委会主任委员</li>
+                    </ul>
+                </div>
             </div>
 
             <!-- 科研方向 -->
             <div class="tab-pane" id="research">
-                <p>研究工作主要聚焦于肿瘤靶向及免疫治疗临床与转化研究，特别是免疫细胞治疗的技术开发与临床应用。</p>
+                <div class="content-card">
+                    <p>研究工作主要聚焦于肿瘤靶向及免疫治疗临床与转化研究，特别是免疫细胞治疗的技术开发与临床应用。</p>
+                </div>
 
-                <h3>1. 肿瘤免疫治疗基础与临床转化</h3>
-                <p>开展免疫检查点抑制剂、免疫细胞治疗等新疗法的基础机制研究与临床转化，推动免疫治疗方案的优化与个体化应用。</p>
+                <div class="content-card">
+                    <h3>1. 肿瘤免疫治疗基础与临床转化</h3>
+                    <p>开展免疫检查点抑制剂、免疫细胞治疗等新疗法的基础机制研究与临床转化，推动免疫治疗方案的优化与个体化应用。</p>
+                </div>
 
-                <h3>2. CAR-T细胞治疗技术开发</h3>
-                <p>专注于CAR-T等免疫细胞治疗产品的研发，推动细胞治疗专利成果的临床转化，在华西医院牵头开展多项CAR-T细胞临床试验。</p>
+                <div class="content-card">
+                    <h3>2. CAR-T细胞治疗技术开发</h3>
+                    <p>专注于CAR-T等免疫细胞治疗产品的研发，推动细胞治疗专利成果的临床转化，在华西医院牵头开展多项CAR-T细胞临床试验。</p>
+                </div>
 
-                <h3>3. 创新药物临床研究与评价</h3>
-                <p>作为国家药物临床试验机构负责人，牵头开展国内外创新抗肿瘤药物的临床试验，包括全球多中心临床研究，建立创新药物临床评价体系。</p>
+                <div class="content-card">
+                    <h3>3. 创新药物临床研究与评价</h3>
+                    <p>作为国家药物临床试验机构负责人，牵头开展国内外创新抗肿瘤药物的临床试验，包括全球多中心临床研究，建立创新药物临床评价体系。</p>
+                </div>
             </div>
 
             <!-- 研究成果 -->
             <div class="tab-pane" id="achievements">
-             
-                <h3>科研项目</h3>
-                <p>作为项目负责人承担并完成多项国家级、省部级科研项目，总经费超过3000万元，主要包括：</p>
-                <ul>
-                    <li>国家科技部"863计划"项目</li>
-                    <li>"重大新药创制"科技重大专项课题</li>
-                    <li>国家自然科学基金面上项目 8项</li>
-                    <li>四川省科技厅重点项目</li>
-                    <li>中国医学科学院临床与转化医学研究基金项目</li>
-                </ul>
+                <div class="content-card">
+                    <h3>科研项目</h3>
+                    <p>作为项目负责人承担并完成多项国家级、省部级科研项目，总经费超过3000万元，主要包括：</p>
+                    <ul>
+                        <li>国家科技部"863计划"项目</li>
+                        <li>"重大新药创制"科技重大专项课题</li>
+                        <li>国家自然科学基金面上项目 8项</li>
+                        <li>四川省科技厅重点项目</li>
+                        <li>中国医学科学院临床与转化医学研究基金项目</li>
+                    </ul>
+                </div>
 
-                <h3>学术论文</h3>
-                <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇），J Clin Oncol，Ann Oncol，Cancer Res，Clin Cancer Res（2篇），Mol Ther，JITC等发表研究论文100多篇。</p>
+                <div class="content-card">
+                    <h3>学术论文</h3>
+                    <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇），J Clin Oncol，Ann Oncol，Cancer Res，Clin Cancer Res（2篇），Mol Ther，JITC等发表研究论文100多篇。</p>
+                </div>
 
-                <h3>专利与转化</h3>
-                <ul>
-                    <li>获授权专利7项，其中PCT专利2项</li>
-                    <li>3项细胞治疗产品进入临床转化阶段</li>
-                    <li>与多家生物公司签订联合开发协议</li>
-                </ul>
+                <div class="content-card">
+                    <h3>专利与转化</h3>
+                    <ul>
+                        <li>获授权专利7项，其中PCT专利2项</li>
+                        <li>3项细胞治疗产品进入临床转化阶段</li>
+                        <li>与多家生物公司签订联合开发协议</li>
+                    </ul>
+                </div>
 
-                <h3>临床试验</h3>
-                <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
+                <div class="content-card">
+                    <h3>临床试验</h3>
+                    <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
+                </div>
             </div>
 
             <!-- 相关论文 -->
@@ -417,7 +451,7 @@
 
             <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
-                <div class="gallery-section">
+                <div class="content-card">
                     <h3>毕业照</h3>
                     <div class="gallery-grid">
                         <div class="gallery-item">
@@ -432,7 +466,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-section">
+                <div class="content-card">
                     <h3>实验室活动</h3>
                     <div class="gallery-grid">
                         <div class="gallery-item">
@@ -456,7 +490,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-section">
+                <div class="content-card">
                     <h3>细胞治疗团队</h3>
                     <div class="gallery-grid">
                         <div class="gallery-item">
@@ -485,33 +519,42 @@
 
             <!-- 招聘信息 -->
             <div class="tab-pane" id="recruit">
+                <div class="content-card">
+                    <h3>博士后招聘</h3>
+                    <p>因科研工作发展需要，四川大学华西医院王永生课题组现面向国内外公开招收博士后研究人员数名。</p>
+                </div>
 
-                <h3>博士后招聘</h3>
-                <p>因科研工作发展需要，四川大学华西医院王永生课题组现面向国内外公开招收博士后研究人员数名。</p>
+                <div class="content-card">
+                    <h3>课题组介绍</h3>
+                    <p>王永生教授，现任华西医院创新药物临床研究与评价国家药监局重点实验室主任、华西医院肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任，四川大学生物治疗国家重点实验室肿瘤生物研究室PI、博士生导师。</p>
+                    <p>长期从事肿瘤临床及基础研究工作，基础研究主要集中于肿瘤免疫治疗和临床转化研究。承担“十一五”“十三五”重大新药创制、国家“863”项目、国家自然科学基金项目等多个国家级项目，以第一作者或通讯作者在Signal Transduct Target Ther（6篇）、J Clin Oncol、Ann Oncol、Cancer Res、Clin Cancer Res（2篇）、Mol Ther、JITC等期刊发表研究论文100多篇。</p>
+                    <p>团队近几年在CAR-T细胞领域获授权专利7项（PCT专利2项），其中1项PCT专利已获得美国授权，欧盟专利进入最后审核阶段。目前与多家企业签订合作协议，推进临床转化。</p>
+                </div>
 
-                <h3>课题组介绍</h3>
-                <p>王永生教授，现任华西医院创新药物临床研究与评价国家药监局重点实验室主任、华西医院肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任，四川大学生物治疗国家重点实验室肿瘤生物研究室PI、博士生导师。</p>
-                <p>长期从事肿瘤临床及基础研究工作，基础研究主要集中于肿瘤免疫治疗和临床转化研究。承担“十一五”“十三五”重大新药创制、国家“863”项目、国家自然科学基金项目等多个国家级项目，以第一作者或通讯作者在Signal Transduct Target Ther（6篇）、J Clin Oncol、Ann Oncol、Cancer Res、Clin Cancer Res（2篇）、Mol Ther、JITC等期刊发表研究论文100多篇。</p>
-                <p>团队近几年在CAR-T细胞领域获授权专利7项（PCT专利2项），其中1项PCT专利已获得美国授权，欧盟专利进入最后审核阶段。目前与多家企业签订合作协议，推进临床转化。</p>
+                <div class="content-card">
+                    <h3>岗位描述</h3>
+                    <ul>
+                        <li>从事与课题组承担的国家研究课题相关的科研工作；</li>
+                        <li>在站工作期限为3年；</li>
+                        <li>在站期间待遇、科研业绩要求，以及出站后留院要求，均按照四川大学华西医院博士后管理有关规定执行。</li>
+                    </ul>
+                </div>
 
-                <h3>岗位描述</h3>
-                <ul>
-                    <li>从事与课题组承担的国家研究课题相关的科研工作；</li>
-                    <li>在站工作期限为3年；</li>
-                    <li>在站期间待遇、科研业绩要求，以及出站后留院要求，均按照四川大学华西医院博士后管理有关规定执行。</li>
-                </ul>
+                <div class="content-card">
+                    <h3>招收条件</h3>
+                    <ul>
+                        <li>具备较强的事业心，有志于从事科学研究，能够独立开展科研工作；</li>
+                        <li>具有国内外知名大学或研究机构授予的相关专业博士学位，年龄不超过35周岁，能全职从事博士后研究工作；</li>
+                        <li>具有免疫学、肿瘤生物学、分子生物学博士学位且有细胞治疗研究经历者优先考虑；</li>
+                        <li>品行端正，身体健康，诚实守信，具备强烈的责任心和团队合作意识，富有科研探索精神，具备良好的英语写作和沟通能力；</li>
+                        <li>博士期间至少以第一作者发表过SCI论文1-2篇。</li>
+                    </ul>
+                </div>
 
-                <h3>招收条件</h3>
-                <ul>
-                    <li>具备较强的事业心，有志于从事科学研究，能够独立开展科研工作；</li>
-                    <li>具有国内外知名大学或研究机构授予的相关专业博士学位，年龄不超过35周岁，能全职从事博士后研究工作；</li>
-                    <li>具有免疫学、肿瘤生物学、分子生物学博士学位且有细胞治疗研究经历者优先考虑；</li>
-                    <li>品行端正，身体健康，诚实守信，具备强烈的责任心和团队合作意识，富有科研探索精神，具备良好的英语写作和沟通能力；</li>
-                    <li>博士期间至少以第一作者发表过SCI论文1-2篇。</li>
-                </ul>
-
-                <h3>应聘方式</h3>
-                <p>请有意者将个人简历发送至邮箱：<a href="mailto:wangys@scu.edu.cn">wangys@scu.edu.cn</a>，邮件标题请注明“博士后申请”。</p>
+                <div class="content-card">
+                    <h3>应聘方式</h3>
+                    <p>请有意者将个人简历发送至邮箱：<a href="mailto:wangys@scu.edu.cn">wangys@scu.edu.cn</a>，邮件标题请注明“博士后申请”。</p>
+                </div>
 
                 <div class="update-time">更新时间：2026-08-31</div>
             </div>
