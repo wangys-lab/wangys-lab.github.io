@@ -20,13 +20,9 @@
             line-height: 1.7;
         }
 
-        /* 👇 修改点：完全重构了头部的横幅样式（Banner） 👇 */
         .header-wrap {
-            /* 提取了你图片中的华西深红色 */
             background-color: #921b22; 
-            /* 增加了一点点暗红色的渐变，让背景不那么死板 */
             background-image: radial-gradient(circle at 80% 50%, #9d1b22, #7a1116);
-            /* 底部加一条华西建筑屋顶的暗金色修饰线 */
             border-bottom: 4px solid #d4a96a; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
@@ -42,14 +38,13 @@
             display: flex;
             gap: 35px;
             padding: 40px 0;
-            align-items: center; /* 让所有元素垂直居中 */
+            align-items: center; 
         }
 
-        /* 左侧华西建筑图 */
         .banner-huaxi-img {
             height: 220px;
             flex-shrink: 0;
-            margin-left: -20px; /* 让图片稍微靠左一点，贴近边缘 */
+            margin-left: -20px; 
         }
         
         .banner-huaxi-img img {
@@ -58,23 +53,20 @@
             object-fit: contain;
         }
 
-        /* 中间文字区域（带竖线） */
         .banner-text-box {
-            /* 模仿图里的白色竖线 */
             border-left: 5px solid #ffffff; 
             padding-left: 25px;
             flex-grow: 1;
-            color: #ffffff; /* 文字全部变白 */
+            color: #ffffff; 
         }
 
         .banner-text-box h1 {
             font-size: 32px;
             font-weight: bold;
             margin-bottom: 5px;
-            letter-spacing: 2px; /* 增加字间距，更有气势 */
+            letter-spacing: 2px; 
         }
 
-        /* 英文副标题 */
         .banner-text-box .eng-title {
             font-size: 15px;
             font-style: italic;
@@ -83,7 +75,6 @@
             margin-bottom: 18px;
         }
 
-        /* 老板具体信息 */
         .banner-text-box .details p {
             font-size: 14.5px;
             line-height: 1.8;
@@ -95,7 +86,6 @@
             opacity: 0.8;
         }
 
-        /* 重新设计的半透明研究方向标签 */
         .research-direction {
             margin-top: 18px;
         }
@@ -108,7 +98,6 @@
         }
 
         .research-direction li {
-            /* 在红底上使用半透明白色背景 */
             background-color: rgba(255, 255, 255, 0.1); 
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 4px 14px;
@@ -117,11 +106,9 @@
             white-space: nowrap;
         }
 
-        /* 右侧头像 */
         .avatar-box {
             width: 140px;
             height: 185px;
-            /* 头像加一个半透明的白边框，融入红底 */
             border: 3px solid rgba(255,255,255,0.4); 
             flex-shrink: 0;
             overflow: hidden;
@@ -135,9 +122,7 @@
             object-fit: cover;
             display: block;
         }
-        /* 👆 修改点结束 👆 */
 
-        /* ========== 以下为原来的导航和内容代码（未做改动） ========== */
         .tab-nav {
             background-color: #fff;
             border-bottom: 1px solid #e5e5e5;
@@ -149,10 +134,12 @@
             gap: 0;
         }
 
+        /* 👇 修改点：放大了导航栏的字号和间距 👇 */
         .tab-item {
-            padding: 14px 28px;
+            padding: 16px 30px; /* 稍微增加了上下内边距，让点击区域更大 */
             cursor: pointer;
-            font-size: 15px;
+            font-size: 18px; /* 从 15px 放大到 18px */
+            font-weight: 500; /* 字体微微加粗 */
             color: #444;
             transition: all 0.2s;
             border-bottom: 3px solid transparent;
@@ -167,30 +154,29 @@
         .tab-item.active {
             color: #921b22;
             border-bottom-color: #921b22;
-            font-weight: 600;
+            font-weight: bold; /* 选中的状态加粗，更醒目 */
         }
+        /* 👆 修改点结束 👆 */
 
-        ..main-content {
+        /* 👇 修改点：加入了枫叶背景 👇 */
+        .main-content {
             background-color: #fff;
-            
-            /* 👇 新增：纯代码生成的华西红半透明枫叶水印 👇 */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23921b22' opacity='0.035'%3E%3Cpath d='M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c-1.1 1-2.2 2.1-3.2 3.2 1.3 1.1 2.8 1.9 4.4 2.3l60.2 13.7c9.5 2.2 16 10.9 15.3 20.7s-8.6 17.5-18.3 17l-71.1-3.3c-1.6-.1-3.2 0-4.6 .4-.6 1.4-.8 3-.5 4.5l26.2 78c2.9 8.6-1.1 18-9.2 21.6-8.2 3.5-17.7-.3-21.6-8.7L380 293.7c-.8-1.7-1.9-3.2-3.3-4.4-1.6 1.4-2.8 3.3-3.2 5.3l-16.1 82.5c-1.7 8.9-10 15.1-19 14.2-9.1-.9-15.8-8.7-15.3-17.9l4.5-84.1c.1-1.8-.4-3.6-1.5-5.1-1.3-.3-2.6-.2-3.9 .3L275.6 304v77.3c0 9.2-7.5 16.7-16.7 16.7H244v65.6c0 9.2-7.5 16.7-16.7 16.7s-16.7-7.5-16.7-16.7V398h-15.1c-9.2 0-16.7-7.5-16.7-16.7V304l-46.6-19.4c-1.2-.5-2.6-.6-3.9-.3-1.1 1.5-1.6 3.3-1.5 5.1l4.5 84.1c.5 9.2-6.2 17-15.3 17.9-9 .9-17.3-5.3-19-14.2l-16.1-82.5c-.5-2-1.7-3.9-3.2-5.3-1.3 1.2-2.5 2.7-3.3 4.4l-43.9 86.4c-3.9 8.3-13.4 12.2-21.6 8.7-8.1-3.5-12.1-12.9-9.2-21.6l26.2-78c.3-1.5 .1-3.1-.5-4.5-1.4-.4-3-.5-4.6-.4l-71.1 3.3c-9.7 .5-17.6-7.1-18.3-17-.7-9.8 5.8-18.5 15.3-20.7l60.2-13.7c1.6-.4 3.1-1.2 4.4-2.3-1-1-2.1-2.1-3.2-3.2l-43.3-39.4c-6.9-6.3-9.5-16-6.4-24.6s11.1-14.1 20.2-12.9l75 9.8c1.7 .2 3.4-.2 4.8-1.1 1-1.2 1.6-2.8 1.5-4.4l-11.8-77c-1.3-8.8 4.1-17.1 12.6-19 8.5-1.9 17.2 2.7 20 10.9l28.6 84c.6 1.7 1.7 3.1 3.2 4.1 1.6-1 3.2-1.6 5-1.8l70-9.2c9.2-1.2 17.5 5.1 18.7 14.3 1.2 9.2-5.1 17.5-14.3 18.7l-71 9.3c-1.8 .2-3.4 1.1-4.5 2.5 1.5 1.1 3.3 1.4 5.2 1l84.6-20.4c8.8-2.1 17.8 2.6 20.8 11.2s-1.1 17.8-9.5 21L244 233.1v-26c0-9.2 7.5-16.7 16.7-16.7h4.8l-15-77c-1.8-9 4-17.5 12.8-19.4 8.7-1.9 17.6 3.1 20 11.8l17 60c.4 1.5 1.4 2.8 2.8 3.5 1.5-.7 2.9-1.9 3.6-3.4l30.9-61.7c4.1-8.1 13.8-11.5 21.9-7.5s11.5 13.8 7.5 21.9L338 181.8c-.8 1.6-.8 3.4 0 5 1.1 1.1 2.7 1.5 4.3 1.2l75-9.8c9.1-1.2 17.2 4.3 20.2 12.9z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 30px bottom 30px; /* 固定在右下角 */
-            background-size: 320px; /* 枫叶的大小 */
-            /* 👆 新增结束 👆 */
-
+            background-position: right 30px bottom 30px; 
+            background-size: 320px; 
             margin: 20px auto;
             padding: 30px 40px;
             min-height: 500px;
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
+        /* 👆 修改点结束 👆 */
 
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
         .tab-pane h2 {
-            font-size: 20px;
+            font-size: 22px; /* 顺便把二级标题也稍微放大一点，更协调 */
             color: #921b22;
             margin-bottom: 20px;
             padding-bottom: 8px;
@@ -332,7 +318,6 @@
 
             <!-- 科研方向 -->
             <div class="tab-pane" id="research">
-                <h2>科研方向</h2>
                 <p>研究工作主要聚焦于肿瘤靶向及免疫治疗临床与转化研究，特别是免疫细胞治疗的技术开发与临床应用。</p>
 
                 <h3>1. 肿瘤免疫治疗基础与临床转化</h3>
@@ -375,7 +360,6 @@
 
             <!-- 相关论文 -->
             <div class="tab-pane" id="news">
-                <h2>相关论文</h2>
                 <ol class="paper-list">
                     <li>Lei YN, Qin D, He Y, Shu P, Zhang B, Chen Y, Liu N, He X, Zhang YG, Chang MY, Li X, Guo FC, Bai LL, Feng M, Wang FJ, Gao Y, Zhu B, Li Z, Li D, <strong>Wang YS</strong>, Wei Y. Parallel 4-1BB Signaling in Dual DLL3/CD56-Targeting CAR-T Cells Triggers Adaptive Proliferation and Functional Persistence to Eradicate Small Cell Lung Cancer. <strong>Cancer Res</strong>. 2026 Jul 23. doi: 10.1158/0008-5472.CAN-25-5261. Epub ahead of print. </li>
                     <li>Huang T, Fan Z, <strong>Wang Y</strong>, Yan X, Yang H, Wang S, Pang D, Li H, Wang H, Geng C, Huang L, Sun Y, Wang B, Sun G, Siddiqui A, Restuccia E, Shao Z. The fixed-dose combination of pertuzumab and trastuzumab for subcutaneous injection in Chinese patients with HER2-positive early breast cancer: primary analysis of the phase III, randomized FDChina study. <strong>Int J Clin Oncol</strong>. 2026 Jul;31(7):1189-1200. </li>
@@ -392,8 +376,7 @@
 
             <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
-                <h2>课题组风采</h2>
-
+            
                 <div class="gallery-section">
                     <h3>毕业照</h3>
                     <div class="gallery-grid">
@@ -462,7 +445,6 @@
 
             <!-- 招聘信息 -->
             <div class="tab-pane" id="recruit">
-                <h2>招聘信息</h2>
                 
                 <h3>博士后招聘</h3>
                 <p>因科研工作发展需要，四川大学华西医院王永生课题组现面向国内外公开招收博士后研究人员数名。</p>
