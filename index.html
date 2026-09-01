@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>王永生 - 四川大学华西医院</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    
     <style>
         * {
             margin: 0;
@@ -18,7 +20,6 @@
             line-height: 1.7;
         }
 
-        /* 顶部华西红色标题栏 */
         .top-bar {
             width: 100%;
             height: 8px;
@@ -26,10 +27,9 @@
         }
 
         .header-wrap {
-            /* 使用浅色对角线渐变代替纯白 */
             background: linear-gradient(135deg, #ffffff 0%, #f0f2f5 100%);
             border-bottom: 3px solid #b01b23;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 稍微加深了阴影，增加层次 */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
         .container {
@@ -38,7 +38,6 @@
             padding: 0 20px;
         }
 
-        /* 个人信息头部 */
         .profile-header {
             display: flex;
             gap: 40px;
@@ -52,6 +51,7 @@
             border: 1px solid #ddd;
             flex-shrink: 0;
             overflow: hidden;
+            border-radius: 4px;
         }
 
         .avatar-box img {
@@ -107,7 +107,6 @@
             font-weight: 600;
         }
 
-        /* 研究方向：横向一排、字号缩小 */
         .research-direction ul {
             list-style: none;
             display: flex;
@@ -124,7 +123,21 @@
             white-space: nowrap;
         }
 
-        /* 标签导航 */
+        /* 👇 新增：右侧建筑装饰图的样式 👇 */
+        .side-decoration {
+            margin-left: auto; /* 自动把图片推到最右边 */
+            height: 200px; /* 和左边头像高度保持一致 */
+            flex-shrink: 0;
+        }
+
+        .side-decoration img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            /* 图片本身自带修饰，不需要额外加边框或阴影 */
+        }
+        /* 👆 新增结束 👆 */
+
         .tab-nav {
             background-color: #fff;
             border-bottom: 1px solid #e5e5e5;
@@ -158,7 +171,6 @@
             font-weight: 600;
         }
 
-        /* 主内容区 */
         .main-content {
             background-color: #fff;
             margin: 20px auto;
@@ -205,7 +217,6 @@
             margin-bottom: 6px;
         }
 
-        /* 工作经历列表放大字号 */
         .experience-list {
             list-style: none;
             margin-left: 0;
@@ -218,7 +229,6 @@
             line-height: 1.8;
         }
 
-        /* 底部 */
         .footer {
             background-color: #f0f0f0;
             border-top: 1px solid #e0e0e0;
@@ -236,12 +246,6 @@
             margin-top: 20px;
         }
 
-        /* 占位符提示样式 */
-        .placeholder {
-            color: #aaa;
-            font-style: italic;
-        }
-
         .tab-pane a {
             color: #b01b23;
             text-decoration: none;
@@ -251,7 +255,6 @@
             text-decoration: underline;
         }
 
-        /* ========== 课题组风采相册样式 ========== */
         .gallery-section {
             margin-bottom: 32px;
         }
@@ -280,7 +283,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
 
-        /* ========== 论文列表专属样式 ========== */
         .paper-list {
             margin-left: 26px;
             margin-bottom: 15px;
@@ -335,6 +337,13 @@
                         </ul>
                     </div>
                 </div>
+
+                <!-- 👇 新增：网页右侧的华西建筑图片 👇 -->
+                <div class="side-decoration">
+                    <img src="huaxi.png" alt="华西风采">
+                </div>
+                <!-- 👆 新增结束 👆 -->
+
             </div>
         </div>
     </div>
