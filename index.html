@@ -20,7 +20,7 @@
             line-height: 1.7;
         }
 
-        /* 👇 新增：顶部深色品牌栏 👇 */
+        /* 👇 修改点：顶部深色品牌栏与字体升级 👇 */
         .top-brand-bar {
             background-color: #38080a; 
             height: 55px;
@@ -34,15 +34,23 @@
             width: 100%;
         }
 
+        /* 升级版学术风字体与链接样式 */
         .lab-name {
             color: #d4a96a; 
-            font-size: 22px;
-            font-family: "Georgia", "Times New Roman", serif; 
+            font-size: 23px; /* 稍微调大字号 */
+            font-family: "Playfair Display", "Georgia", "Times New Roman", serif; /* 更高级的英文衬线字体组合 */
             font-style: italic;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-decoration: none; /* 去掉链接的下划线 */
+            transition: color 0.3s ease; /* 增加平滑的过渡动画 */
         }
-        /* 👆 品牌栏新增结束 👆 */
+
+        /* 鼠标悬停时字体变亮 */
+        .lab-name:hover {
+            color: #fce1b3; /* 更明亮的金色 */
+        }
+        /* 👆 品牌栏修改结束 👆 */
 
         /* 顶部横幅 */
         .header-wrap {
@@ -184,7 +192,7 @@
             z-index: 1;
         }
 
-        ..main-content::after {
+        .main-content::after {
             content: "";
             position: absolute;
             top: 0;
@@ -193,20 +201,18 @@
             height: 100%;
             background-image: url("huaxi.png"); 
             background-repeat: no-repeat;
-            
-            /* 👇 主要修改了下面这两行 👇 */
-            background-position: center; /* 让图片居中对齐 */
-            background-size: cover; /* cover 的意思是：保持图片比例，自动放大直到填满整个区域 */
-            
-            opacity: 0.15; /* 透明度保持 15% */
+            background-position: center; 
+            background-size: cover; 
+            opacity: 0.15; 
             z-index: -1; 
             pointer-events: none; 
         }
 
         /* 浅灰色背景卡片样式 */
         .content-card {
-            background-color: #fafafa; 
-            border: 1px solid #f0f0f0; 
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.05); 
             border-radius: 8px; 
             padding: 24px 30px; 
             margin-bottom: 20px; 
@@ -216,7 +222,7 @@
 
         .content-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
-            background-color: #ffffff; 
+            background-color: rgba(255, 255, 255, 0.95);
         }
 
         .content-card h3 {
@@ -257,7 +263,7 @@
         .tab-pane a { color: #921b22; text-decoration: none; }
         .tab-pane a:hover { text-decoration: underline; }
 
-        /* 👇 修改点：照片横向滑动容器 (Carousel) 👇 */
+        /* 照片横向滑动容器 (Carousel) */
         .gallery-carousel {
             display: flex;
             overflow-x: auto; 
@@ -293,7 +299,6 @@
         .gallery-carousel::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
         .gallery-carousel::-webkit-scrollbar-thumb { background: #d4a96a; border-radius: 4px; }
         .gallery-carousel::-webkit-scrollbar-thumb:hover { background: #921b22; }
-        /* 👆 滑动效果样式结束 👆 */
 
         /* 论文列表单独卡片 */
         .paper-list { 
@@ -307,8 +312,9 @@
             position: relative;
             padding: 16px 20px 16px 50px; 
             margin-bottom: 15px; 
-            background-color: #fcfcfc; 
-            border: 1px solid #eee; 
+            background-color: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.05); 
             border-radius: 8px; 
             font-size: 14.5px; 
             line-height: 1.7;
@@ -329,7 +335,7 @@
         }
 
         .paper-list li:hover {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.95);
             border-color: #e0e0e0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.06);
             transform: translateY(-2px);
@@ -341,10 +347,11 @@
 </head>
 <body>
 
-    <!-- 👇 新增：顶部品牌栏 👇 -->
+    <!-- 👇 修改点：将文字改为可点击的链接 (<a> 标签) 👇 -->
     <div class="top-brand-bar">
         <div class="container">
-            <div class="lab-name">Wang Yongsheng Lab</div>
+            <!-- 增加 href="index.html" 使其点击后返回首页 -->
+            <a href="index.html" class="lab-name">Wang Yongsheng Lab</a>
         </div>
     </div>
     
@@ -501,7 +508,6 @@
 
             <!-- 课题组风采 -->
             <div class="tab-pane" id="members">
-                <!-- 👇 替换为滑动结构 👇 -->
                 <div class="content-card">
                     <h3>毕业照</h3>
                     <div class="gallery-carousel">
@@ -564,7 +570,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 👆 滑动结构替换结束 👆 -->
 
                 <div class="update-time">更新时间：2026-08-31</div>
             </div>
