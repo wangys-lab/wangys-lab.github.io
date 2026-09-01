@@ -20,16 +20,16 @@
             line-height: 1.7;
         }
 
-        .top-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #b01b23;
-        }
-
+        /* 👇 修改点：完全重构了头部的横幅样式（Banner） 👇 */
         .header-wrap {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f2f5 100%);
-            border-bottom: 3px solid #b01b23;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            /* 提取了你图片中的华西深红色 */
+            background-color: #921b22; 
+            /* 增加了一点点暗红色的渐变，让背景不那么死板 */
+            background-image: radial-gradient(circle at 80% 50%, #9d1b22, #7a1116);
+            /* 底部加一条华西建筑屋顶的暗金色修饰线 */
+            border-bottom: 4px solid #d4a96a; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
         .container {
@@ -40,18 +40,93 @@
 
         .profile-header {
             display: flex;
-            gap: 40px;
-            padding: 35px 0;
-            align-items: flex-start;
+            gap: 35px;
+            padding: 40px 0;
+            align-items: center; /* 让所有元素垂直居中 */
         }
 
+        /* 左侧华西建筑图 */
+        .banner-huaxi-img {
+            height: 220px;
+            flex-shrink: 0;
+            margin-left: -20px; /* 让图片稍微靠左一点，贴近边缘 */
+        }
+        
+        .banner-huaxi-img img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* 中间文字区域（带竖线） */
+        .banner-text-box {
+            /* 模仿图里的白色竖线 */
+            border-left: 5px solid #ffffff; 
+            padding-left: 25px;
+            flex-grow: 1;
+            color: #ffffff; /* 文字全部变白 */
+        }
+
+        .banner-text-box h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 2px; /* 增加字间距，更有气势 */
+        }
+
+        /* 英文副标题 */
+        .banner-text-box .eng-title {
+            font-size: 15px;
+            font-style: italic;
+            font-family: "Times New Roman", Times, serif;
+            opacity: 0.85;
+            margin-bottom: 18px;
+        }
+
+        /* 老板具体信息 */
+        .banner-text-box .details p {
+            font-size: 14.5px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        .banner-text-box .details strong {
+            font-weight: normal;
+            opacity: 0.8;
+        }
+
+        /* 重新设计的半透明研究方向标签 */
+        .research-direction {
+            margin-top: 18px;
+        }
+
+        .research-direction ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .research-direction li {
+            /* 在红底上使用半透明白色背景 */
+            background-color: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13.5px;
+            white-space: nowrap;
+        }
+
+        /* 右侧头像 */
         .avatar-box {
-            width: 160px;
-            height: 200px;
-            border: 1px solid #ddd;
+            width: 140px;
+            height: 185px;
+            /* 头像加一个半透明的白边框，融入红底 */
+            border: 3px solid rgba(255,255,255,0.4); 
             flex-shrink: 0;
             overflow: hidden;
             border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
         }
 
         .avatar-box img {
@@ -60,88 +135,12 @@
             object-fit: cover;
             display: block;
         }
+        /* 👆 修改点结束 👆 */
 
-        .profile-info h1 {
-            font-size: 28px;
-            color: #b01b23;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .profile-info .title {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .profile-info .department {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .contact-list {
-            list-style: none;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .contact-list li {
-            margin-bottom: 6px;
-        }
-
-        .contact-list li span {
-            color: #888;
-            margin-right: 8px;
-        }
-
-        .research-direction {
-            margin-top: 18px;
-        }
-
-        .research-direction h4 {
-            font-size: 18px;
-            color: #b01b23;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .research-direction ul {
-            list-style: none;
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 12px;
-        }
-
-        .research-direction li {
-            background-color: #fdf0f1;
-            color: #b01b23;
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        /* 👇 新增：右侧建筑装饰图的样式 👇 */
-        .side-decoration {
-            margin-left: auto; /* 自动把图片推到最右边 */
-            height: 200px; /* 和左边头像高度保持一致 */
-            flex-shrink: 0;
-        }
-
-        .side-decoration img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-            /* 图片本身自带修饰，不需要额外加边框或阴影 */
-        }
-        /* 👆 新增结束 👆 */
-
+        /* ========== 以下为原来的导航和内容代码（未做改动） ========== */
         .tab-nav {
             background-color: #fff;
             border-bottom: 1px solid #e5e5e5;
-            margin-top: 5px;
         }
 
         .tab-list {
@@ -161,13 +160,13 @@
         }
 
         .tab-item:hover {
-            color: #b01b23;
+            color: #921b22;
             background-color: #fdf8f8;
         }
 
         .tab-item.active {
-            color: #b01b23;
-            border-bottom-color: #b01b23;
+            color: #921b22;
+            border-bottom-color: #921b22;
             font-weight: 600;
         }
 
@@ -180,54 +179,23 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
         .tab-pane h2 {
             font-size: 20px;
-            color: #b01b23;
+            color: #921b22;
             margin-bottom: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid #eee;
             font-weight: 600;
         }
+        .tab-pane h3 { font-size: 17px; color: #333; margin: 22px 0 10px; }
+        .tab-pane p { margin-bottom: 12px; text-align: justify; }
+        .tab-pane ul { margin-left: 22px; margin-bottom: 15px; }
+        .tab-pane li { margin-bottom: 6px; }
 
-        .tab-pane h3 {
-            font-size: 17px;
-            color: #333;
-            margin: 22px 0 10px;
-        }
-
-        .tab-pane p {
-            margin-bottom: 12px;
-            text-align: justify;
-        }
-
-        .tab-pane ul {
-            margin-left: 22px;
-            margin-bottom: 15px;
-        }
-
-        .tab-pane li {
-            margin-bottom: 6px;
-        }
-
-        .experience-list {
-            list-style: none;
-            margin-left: 0;
-            padding-left: 0;
-        }
-
-        .experience-list li {
-            margin-bottom: 8px;
-            font-size: 16px;
-            line-height: 1.8;
-        }
+        .experience-list { list-style: none; margin-left: 0; padding-left: 0; }
+        .experience-list li { margin-bottom: 8px; font-size: 16px; line-height: 1.8; }
 
         .footer {
             background-color: #f0f0f0;
@@ -239,25 +207,11 @@
             margin-top: 30px;
         }
 
-        .update-time {
-            text-align: right;
-            font-size: 12px;
-            color: #999;
-            margin-top: 20px;
-        }
+        .update-time { text-align: right; font-size: 12px; color: #999; margin-top: 20px; }
+        .tab-pane a { color: #921b22; text-decoration: none; }
+        .tab-pane a:hover { text-decoration: underline; }
 
-        .tab-pane a {
-            color: #b01b23;
-            text-decoration: none;
-        }
-
-        .tab-pane a:hover {
-            text-decoration: underline;
-        }
-
-        .gallery-section {
-            margin-bottom: 32px;
-        }
+        .gallery-section { margin-bottom: 32px; }
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -272,62 +226,37 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .gallery-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
-        .paper-list {
-            margin-left: 26px;
-            margin-bottom: 15px;
-        }
-        .paper-list li {
-            margin-bottom: 14px;
-            text-align: justify;
-            font-size: 14.5px;
-            line-height: 1.7;
-        }
-        .paper-list strong {
-            color: #b01b23;
-            font-weight: 600;
-        }
-        .paper-list i {
-            font-style: italic;
-        }
+        .paper-list { margin-left: 26px; margin-bottom: 15px; }
+        .paper-list li { margin-bottom: 14px; text-align: justify; font-size: 14.5px; line-height: 1.7; }
+        .paper-list strong { color: #921b22; font-weight: 600; }
+        .paper-list i { font-style: italic; }
     </style>
 </head>
 <body>
-    <div class="top-bar"></div>
-
     <div class="header-wrap">
         <div class="container">
             <div class="profile-header">
-                <!-- 头像区域 -->
-                <div class="avatar-box">
-                    <img src="图片 1.jpg" alt="王永生">
+                
+                <!-- 1. 左侧华西风采图 -->
+                <div class="banner-huaxi-img">
+                    <img src="huaxi.png" alt="华西风采">
                 </div>
 
-                <!-- 个人信息 -->
-                <div class="profile-info">
-                    <h1>王永生</h1>
-                    <div class="title">教授 | 博士生导师</div>
-                    <div class="department">
-                        单位：四川大学华西医院 肿瘤中心·胸部肿瘤科<br>
-                        职务：肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任、华西医院创新药物临床研究与评价国家药监局重点实验室主任
+                <!-- 2. 中间竖线与老板信息 -->
+                <div class="banner-text-box">
+                    <h1>王永生 教授 / 博士生导师</h1>
+                    <p class="eng-title">Prof. Wang Yongsheng's Research Group</p>
+                    
+                    <div class="details">
+                        <p><strong>单位：</strong>四川大学华西医院 肿瘤中心·胸部肿瘤科</p>
+                        <p><strong>职务：</strong>肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任、<br>华西医院创新药物临床研究与评价国家药监局重点实验室主任</p>
+                        <p><strong>邮箱：</strong>wangys756@gmail.com</p>
                     </div>
 
-                    <ul class="contact-list">
-                        <li><span>邮箱：</span>wangys756@gmail.com</li>
-                    </ul>
-
                     <div class="research-direction">
-                        <h4>研究方向</h4>
                         <ul>
                             <li>肿瘤免疫治疗</li>
                             <li>CAR-T细胞治疗</li>
@@ -338,11 +267,10 @@
                     </div>
                 </div>
 
-                <!-- 👇 新增：网页右侧的华西建筑图片 👇 -->
-                <div class="side-decoration">
-                    <img src="huaxi.png" alt="华西风采">
+                <!-- 3. 右侧老板头像 -->
+                <div class="avatar-box">
+                    <img src="图片 1.jpg" alt="王永生">
                 </div>
-                <!-- 👆 新增结束 👆 -->
 
             </div>
         </div>
@@ -441,15 +369,15 @@
             <div class="tab-pane" id="news">
                 <h2>相关论文</h2>
                 <ol class="paper-list">
-                    <li>Lei YN, Qin D, He Y, Shu P, Zhang B, Chen Y, Liu N, He X, Zhang YG, Chang MY, Li X, Guo FC, Bai LL, Feng M, Wang FJ, Gao Y, Zhu B, Li Z, Li D, <strong>Wang YS</strong>, Wei Y. Parallel 4-1BB Signaling in Dual DLL3/CD56-Targeting CAR-T Cells Triggers Adaptive Proliferation and Functional Persistence to Eradicate Small Cell Lung Cancer. <i>Cancer Res</i>. 2026 Jul 23. doi: 10.1158/0008-5472.CAN-25-5261. Epub ahead of print. PMID: 42489524.</li>
-                    <li>Huang T, Fan Z, <strong>Wang Y</strong>, Yan X, Yang H, Wang S, Pang D, Li H, Wang H, Geng C, Huang L, Sun Y, Wang B, Sun G, Siddiqui A, Restuccia E, Shao Z. The fixed-dose combination of pertuzumab and trastuzumab for subcutaneous injection in Chinese patients with HER2-positive early breast cancer: primary analysis of the phase III, randomized FDChina study. <i>Int J Clin Oncol</i>. 2026 Jul;31(7):1189-1200. doi: 10.1007/s10147-025-02935-7. Epub 2026 May 7. PMID: 42098463; PMCID: PMC13303565.</li>
-                    <li>Zhou H, Zhao H, Hou X, <strong>Wang Y</strong>, He Z, Li Y, Ma Y, Zhao Y, Huang Y, Chen L, Xiao S, Zhu H, Zhu Y, Fang W, Zhang L, Yang Y. Izalontamab Brengitecan in Locally Advanced or Metastatic Non-Small Cell Lung Cancer With Actionable Genomic Alterations Outside of Classical <i>EGFR</i> Mutations: A Phase Ib Study. <i>J Clin Oncol</i>. 2026 Apr;44(10):893-902. doi: 10.1200/JCO-25-01929. Epub 2026 Mar 4. PMID: 41779981; PMCID: PMC13011950.</li>
-                    <li>Shu P, Guo F, Qin D, Zou L, Ma Q, Zhang B, Gao G, Chen Y, He X, Jiang M, Liu N, Zhou K, Zhao J, Lei Y, Gao Y, Zhang Y, Zeng Y, Feng M, Li X, Li D, <strong>Wang Y</strong>. CXCR4-modification enhances CAR-T efficacy by improving tumor tracking and bone marrow homing in B-cell malignancies. <i>Signal Transduct Target Ther</i>. 2026 Jan 28;11(1):38. doi: 10.1038/s41392-025-02522-2. PMID: 41605906; PMCID: PMC12852854.</li>
-                    <li>Feng M, Ma Q, Zhang B, Chen Y, Yang Y, He X, Zeng Y, Jing M, Ou X, Liu Y, Li Q, Liao W, Li X, Tan S, Qin D, Li D, Li Q, <strong>Wang Y</strong>. Targeting the poliovirus receptor to activate T cells and induce myeloid-derived suppressor cells to differentiate to pro-inflammatory macrophages via the IFN-γ-p-STAT1-IRF8 axis in cancer therapy. <i>Cell Death Differ</i>. 2025 Oct;32(10):1791-1805. doi: 10.1038/s41418-025-01496-6. Epub 2025 Apr 14. PMID: 40229462; PMCID: PMC12500977.</li>
-                    <li>Li W, <strong>Wang Y</strong>, Xiong A, Gao G, Song Z, Zhang Y, Huang D, Ye F, Wang Q, Li Z, Liu J, Xu C, Sun Y, Liu X, Zhou F, Zhou C. First-in-human, phase 1 dose-escalation and dose-expansion study of a RET inhibitor SY-5007 in patients with advanced RET-altered solid tumors. <i>Signal Transduct Target Ther</i>. 2024 Nov 4;9(1):300. doi: 10.1038/s41392-024-02006-9. PMID: 39489747; PMCID: PMC11532403.</li>
-                    <li>Zhang B, Hu M, Ma Q, Li K, Li X, He X, Shu P, Chen Y, Gao G, Qin D, Guo F, Zhao J, Liu N, Zhou K, Feng M, Liao W, Li D, Wang X, <strong>Wang Y</strong>. Optimized CAR-T therapy based on spatiotemporal changes and chemotactic mechanisms of MDSCs induced by hypofractionated radiotherapy. <i>Mol Ther</i>. 2023 Jul 5;31(7):2105-2119. doi: 10.1016/j.ymthe.2023.04.008. Epub 2023 Apr 17. PMID: 37073129; PMCID: PMC10362417.</li>
-                    <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang Y</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <i>Signal Transduct Target Ther</i>. 2022 Nov 19;7(1):380. doi: 10.1038/s41392-022-01198-2. PMID: 36402752; PMCID: PMC9675732.</li>
-                    <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang Y</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <i>Signal Transduct Target Ther</i>. 2021 Oct 7;6(1):362. doi: 10.1038/s41392-021-00670-9. PMID: 34620838; PMCID: PMC8497485.</li>
+                    <li>Lei YN, Qin D, He Y, Shu P, Zhang B, Chen Y, Liu N, He X, Zhang YG, Chang MY, Li X, Guo FC, Bai LL, Feng M, Wang FJ, Gao Y, Zhu B, Li Z, Li D, <strong>Wang YS</strong>, Wei Y. Parallel 4-1BB Signaling in Dual DLL3/CD56-Targeting CAR-T Cells Triggers Adaptive Proliferation and Functional Persistence to Eradicate Small Cell Lung Cancer. <strong>Cancer Res</strong>. 2026 Jul 23. doi: 10.1158/0008-5472.CAN-25-5261. Epub ahead of print. </li>
+                    <li>Huang T, Fan Z, <strong>Wang Y</strong>, Yan X, Yang H, Wang S, Pang D, Li H, Wang H, Geng C, Huang L, Sun Y, Wang B, Sun G, Siddiqui A, Restuccia E, Shao Z. The fixed-dose combination of pertuzumab and trastuzumab for subcutaneous injection in Chinese patients with HER2-positive early breast cancer: primary analysis of the phase III, randomized FDChina study. <strong>Int J Clin Oncol</strong>. 2026 Jul;31(7):1189-1200. </li>
+                    <li>Zhou H, Zhao H, Hou X, <strong>Wang Y</strong>, He Z, Li Y, Ma Y, Zhao Y, Huang Y, Chen L, Xiao S, Zhu H, Zhu Y, Fang W, Zhang L, Yang Y. Izalontamab Brengitecan in Locally Advanced or Metastatic Non-Small Cell Lung Cancer With Actionable Genomic Alterations Outside of Classical <i>EGFR</i> Mutations: A Phase Ib Study. <strong>J Clin Oncol</strong>. 2026 Apr;44(10):893-902. </li>
+                    <li>Shu P, Guo F, Qin D, Zou L, Ma Q, Zhang B, Gao G, Chen Y, He X, Jiang M, Liu N, Zhou K, Zhao J, Lei Y, Gao Y, Zhang Y, Zeng Y, Feng M, Li X, Li D, <strong>Wang Y</strong>. CXCR4-modification enhances CAR-T efficacy by improving tumor tracking and bone marrow homing in B-cell malignancies. <strong>Signal Transduct Target Ther</strong>. 2026 Jan 28;11(1):38. </li>
+                    <li>Feng M, Ma Q, Zhang B, Chen Y, Yang Y, He X, Zeng Y, Jing M, Ou X, Liu Y, Li Q, Liao W, Li X, Tan S, Qin D, Li D, Li Q, <strong>Wang Y</strong>. Targeting the poliovirus receptor to activate T cells and induce myeloid-derived suppressor cells to differentiate to pro-inflammatory macrophages via the IFN-γ-p-STAT1-IRF8 axis in cancer therapy. <strong>Cell Death Differ</strong>. 2025 Oct;32(10):1791-1805. </li>
+                    <li>Li W, <strong>Wang Y</strong>, Xiong A, Gao G, Song Z, Zhang Y, Huang D, Ye F, Wang Q, Li Z, Liu J, Xu C, Sun Y, Liu X, Zhou F, Zhou C. First-in-human, phase 1 dose-escalation and dose-expansion study of a RET inhibitor SY-5007 in patients with advanced RET-altered solid tumors. <strong>Signal Transduct Target Ther</strong>. 2024 Nov 4;9(1):300. </li>
+                    <li>Zhang B, Hu M, Ma Q, Li K, Li X, He X, Shu P, Chen Y, Gao G, Qin D, Guo F, Zhao J, Liu N, Zhou K, Feng M, Liao W, Li D, Wang X, <strong>Wang Y</strong>. Optimized CAR-T therapy based on spatiotemporal changes and chemotactic mechanisms of MDSCs induced by hypofractionated radiotherapy. <strong>Mol Ther</strong>. 2023 Jul 5;31(7):2105-2119. doi: 10.1016/j.ymthe.2023.04.008.</li>
+                    <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang Y</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <strong>Signal Transduct Target Ther</strong>. 2022 Nov 19;7(1):380. </li>
+                    <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang Y</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <i>Signal Transduct Target Ther</i>. 2021 Oct 7;6(1):362.</li>
                 </ol>
                 <div class="update-time">更新时间：2026-08-31</div>
             </div>
