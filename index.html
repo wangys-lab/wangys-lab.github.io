@@ -13,14 +13,109 @@
             box-sizing: border-box;
         }
 
+        /* 初始状态禁止滚动，停留在启动页 */
         body {
             font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.7;
+            overflow: hidden; 
         }
 
-        /* 👇 修改点：顶部深色品牌栏变为左右两端对齐 👇 */
+        /* =========================================
+           👇 1. 全新：全屏科幻启动页 (Landing Page) 👇 
+           ========================================= */
+        #landing-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #38080a;
+            /* 深邃的暗红到极黑渐变 */
+            background-image: radial-gradient(circle at 50% 50%, #9d1b22 0%, #200405 100%);
+            z-index: 9999;
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+        }
+
+        /* 帷幕滑走的动画类名 */
+        #landing-page.slide-up {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 启动页画布 */
+        #landingCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 启动页：右上角按钮 */
+        .landing-top-right {
+            position: absolute;
+            top: 50px;
+            right: 60px;
+            z-index: 10;
+        }
+
+        .enter-btn {
+            display: inline-block;
+            color: #d4a96a;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid rgba(212, 169, 106, 0.6);
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .enter-btn:hover {
+            background-color: #d4a96a;
+            color: #38080a;
+            box-shadow: 0 0 15px rgba(212, 169, 106, 0.5);
+            border-color: #d4a96a;
+        }
+
+        /* 启动页：左下角大字 */
+        .landing-bottom-left {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            z-index: 10;
+        }
+
+        .landing-title {
+            font-family: "Playfair Display", "Georgia", serif;
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .landing-subtitle {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            color: #d4a96a;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* =========================================
+           👇 2. 个人主页内容样式 (Main Profile) 👇 
+           ========================================= */
         .top-brand-bar {
             background-color: #38080a; 
             height: 55px;
@@ -30,14 +125,14 @@
         
         .top-brand-bar .container {
             display: flex;
-            justify-content: space-between; /* 左边Logo，右边About Us */
+            justify-content: space-between; 
             align-items: center;
             width: 100%;
         }
 
         .lab-name {
             color: #d4a96a; 
-            font-size: 23px; 
+            font-size: 22px; 
             font-family: "Playfair Display", "Georgia", "Times New Roman", serif; 
             font-style: italic;
             font-weight: 600;
@@ -46,78 +141,13 @@
             transition: color 0.3s ease; 
         }
 
-        .lab-name:hover {
-            color: #fce1b3; 
-        }
-
-        /* 右上角 About Us 按钮样式 */
-        .about-us-link {
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .about-us-link:hover {
-            color: #d4a96a;
-        }
-        /* 👆 品牌栏修改结束 👆 */
-
-        /* 顶部横幅 */
         .header-wrap {
-            position: relative; 
+            position: relative;
             background-color: #921b22; 
             background-image: radial-gradient(circle at 80% 50%, #9d1b22, #7a1116);
             border-bottom: 4px solid #d4a96a; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
-        }
-
-        /* 👇 新增：左下角水印标语样式 👇 */
-        .header-wrap .container {
-            position: relative; /* 确保绝对定位参照容器边界 */
-        }
-
-        .banner-bottom-text {
-            position: absolute;
-            bottom: 12px;
-            left: 20px; /* 与容器左侧对齐 */
-            z-index: 2;
-            pointer-events: none; /* 防止影响鼠标点击后面的元素 */
-        }
-
-        .banner-bottom-text .b-line1 {
-            font-family: "Playfair Display", "Georgia", "Times New Roman", serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .banner-bottom-text .b-line2 {
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            font-size: 11.5px;
-            color: #d4a96a;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-top: 2px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        /* 👆 左下角标语结束 👆 */
-
-        /* 这是科幻粒子动画的画布 */
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0; 
-            pointer-events: none; 
         }
         
         .container {
@@ -126,13 +156,10 @@
             padding: 0 20px;
         }
 
-        /* 确保内容在画布上方 */
         .profile-header {
-            position: relative;
-            z-index: 1; 
             display: flex;
             gap: 40px;
-            padding: 40px 0 60px 0; /* 底部留白加到了 60px，给左下角文字腾出空间 */
+            padding: 40px 0;
             align-items: center; 
             justify-content: space-between;
         }
@@ -149,7 +176,6 @@
             font-weight: bold;
             margin-bottom: 5px;
             letter-spacing: 2px; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
         }
 
         .banner-text-box .eng-title {
@@ -164,7 +190,6 @@
             font-size: 14.5px;
             line-height: 1.8;
             opacity: 0.95;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
         
         .banner-text-box .details strong {
@@ -172,25 +197,15 @@
             opacity: 0.8;
         }
 
-        .research-direction {
-            margin-top: 18px;
-        }
-
-        .research-direction ul {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
+        .research-direction { margin-top: 18px; }
+        .research-direction ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
         .research-direction li {
-            background-color: rgba(0, 0, 0, 0.25); 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 4px 14px;
             border-radius: 20px;
             font-size: 13.5px;
             white-space: nowrap;
-            backdrop-filter: blur(4px); 
         }
 
         .avatar-box {
@@ -200,28 +215,13 @@
             flex-shrink: 0;
             overflow: hidden;
             border-radius: 4px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
         }
 
-        .avatar-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 标签导航 */
-        .tab-nav {
-            background-color: #fff;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .tab-list {
-            display: flex;
-            list-style: none;
-            gap: 0;
-        }
-
+        .tab-nav { background-color: #fff; border-bottom: 1px solid #e5e5e5; }
+        .tab-list { display: flex; list-style: none; gap: 0; }
         .tab-item {
             padding: 16px 30px; 
             cursor: pointer;
@@ -232,19 +232,10 @@
             border-bottom: 3px solid transparent;
             margin-bottom: -1px;
         }
+        .tab-item:hover { color: #921b22; background-color: #fdf8f8; }
+        .tab-item.active { color: #921b22; border-bottom-color: #921b22; font-weight: bold; }
 
-        .tab-item:hover {
-            color: #921b22;
-            background-color: #fdf8f8;
-        }
-
-        .tab-item.active {
-            color: #921b22;
-            border-bottom-color: #921b22;
-            font-weight: bold; 
-        }
-
-        /* 主内容区域与背景水印 */
+        /* 主内容区域与背景图 */
         .main-content {
             background-color: #fff;
             margin: 20px auto;
@@ -253,32 +244,23 @@
             border-radius: 2px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: relative; 
+            z-index: 1;
         }
 
         .main-content::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("huaxi.png"); 
             background-repeat: no-repeat;
             background-position: center; 
             background-size: cover; 
             opacity: 0.15; 
-            z-index: 0; 
+            z-index: -1; 
             pointer-events: none; 
         }
-        
-        .tab-pane { 
-            display: none; 
-            position: relative; 
-            z-index: 1; 
-        }
-        .tab-pane.active { display: block; }
 
-        /* 浅灰色背景卡片样式 */
+        /* 浅灰色毛玻璃卡片 */
         .content-card {
             background-color: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(5px); 
@@ -289,27 +271,22 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
             transition: all 0.3s ease;
         }
-
         .content-card:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
             background-color: rgba(255, 255, 255, 0.95); 
         }
-
         .content-card h3 {
-            margin-top: 0;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            margin-top: 0; margin-bottom: 16px; padding-bottom: 12px;
             border-bottom: 1px dashed #e5e5e5; 
             color: #921b22; 
             font-size: 18px;
         }
-
-        .content-card p:last-child,
-        .content-card ul:last-child,
-        .content-card .gallery-carousel {
+        .content-card p:last-child, .content-card ul:last-child, .content-card .gallery-carousel {
             margin-bottom: 0; 
         }
 
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
         .tab-pane p { margin-bottom: 12px; text-align: justify; }
         .tab-pane ul { margin-left: 22px; margin-bottom: 15px; }
         .tab-pane li { margin-bottom: 6px; }
@@ -318,128 +295,93 @@
         .experience-list li { margin-bottom: 8px; font-size: 16px; line-height: 1.8; }
 
         .footer {
-            background-color: #f0f0f0;
-            border-top: 1px solid #e0e0e0;
-            padding: 20px 0;
-            text-align: center;
-            font-size: 13px;
-            color: #888;
-            margin-top: 30px;
+            background-color: #f0f0f0; border-top: 1px solid #e0e0e0;
+            padding: 20px 0; text-align: center; font-size: 13px; color: #888; margin-top: 30px;
         }
-
         .update-time { text-align: right; font-size: 12px; color: #999; margin-top: 20px; }
         .tab-pane a { color: #921b22; text-decoration: none; }
         .tab-pane a:hover { text-decoration: underline; }
 
-        /* 照片横向滑动容器 */
+        /* 横向滑动照片墙 */
         .gallery-carousel {
-            display: flex;
-            overflow-x: auto; 
-            gap: 20px; 
-            padding: 5px 5px 20px 5px; 
-            scroll-snap-type: x mandatory; 
+            display: flex; overflow-x: auto; gap: 20px; 
+            padding: 5px 5px 20px 5px; scroll-snap-type: x mandatory; 
         }
-        
         .gallery-item {
-            flex: 0 0 280px; 
-            height: 200px;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 0 0 280px; height: 200px; border-radius: 6px; overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease;
             scroll-snap-align: start; 
         }
-        
-        .gallery-item img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: block; 
-        }
-        
-        .gallery-item:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12); 
-        }
-
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
         .gallery-carousel::-webkit-scrollbar { height: 6px; }
         .gallery-carousel::-webkit-scrollbar-track { background: transparent; }
         .gallery-carousel::-webkit-scrollbar-thumb { background: #d4a96a; border-radius: 4px; }
         .gallery-carousel::-webkit-scrollbar-thumb:hover { background: #921b22; }
 
-        /* 论文列表单独卡片 */
-        .paper-list { 
-            margin-left: 0; 
-            padding-left: 0;
-            list-style: none; 
-            counter-reset: paper-counter; 
-        }
-        
+        /* 论文列表独立卡片 */
+        .paper-list { margin-left: 0; padding-left: 0; list-style: none; counter-reset: paper-counter; }
         .paper-list li { 
-            position: relative;
-            padding: 16px 20px 16px 50px; 
-            margin-bottom: 15px; 
-            background-color: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(0,0,0,0.05); 
-            border-radius: 8px; 
-            font-size: 14.5px; 
-            line-height: 1.7;
-            text-align: justify; 
-            transition: all 0.3s ease; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative; padding: 16px 20px 16px 50px; margin-bottom: 15px; 
+            background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.05); border-radius: 8px; font-size: 14.5px; 
+            line-height: 1.7; text-align: justify; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-
         .paper-list li::before {
-            counter-increment: paper-counter;
-            content: "[" counter(paper-counter) "]";
-            position: absolute;
-            left: 18px;
-            top: 16px;
-            color: #921b22;
-            font-weight: 600;
-            font-size: 15px;
+            counter-increment: paper-counter; content: "[" counter(paper-counter) "]";
+            position: absolute; left: 18px; top: 16px; color: #921b22; font-weight: 600; font-size: 15px;
         }
-
         .paper-list li:hover {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-color: #e0e0e0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
-            transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.95); border-color: #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06); transform: translateY(-2px);
         }
-
         .paper-list strong { color: #921b22; font-weight: 600; }
         .paper-list i { font-style: italic; }
     </style>
 </head>
 <body>
 
-    <!-- 顶部品牌栏 -->
+    <!-- 👇 启动页：全屏动画与文字 👇 -->
+    <div id="landing-page">
+        <!-- 粒子画布 -->
+        <canvas id="landingCanvas"></canvas>
+        
+        <!-- 右上角 About Us -->
+        <div class="landing-top-right">
+            <a href="#" class="enter-btn" id="enterBtn">About Us</a>
+        </div>
+
+        <!-- 左下角 核心标语 -->
+        <div class="landing-bottom-left">
+            <div class="landing-title">Wangyongsheng LAB</div>
+            <div class="landing-subtitle">Chimeric Antigen Receptor Therapy</div>
+        </div>
+    </div>
+    <!-- 👆 启动页结束 👆 -->
+
+    <!-- ====================================
+         下面是个人主页内容（初始在底部被遮盖）
+         ==================================== -->
+
     <div class="top-brand-bar">
         <div class="container">
-            <a href="index.html" class="lab-name">Wang Yongsheng Lab</a>
-            <!-- 👇 新增：右上角 About Us 链接，点击自动切换到个人简介并回到顶部 👇 -->
-            <a href="#" class="about-us-link" onclick="document.querySelector('[data-tab=\'intro\']').click(); window.scrollTo(0,0); return false;">About Us</a>
+            <!-- 导航栏左侧的Lab字样，点击也可刷新页面返回启动页 -->
+            <a href="javascript:location.reload();" class="lab-name">Wang Yongsheng Lab</a>
+            <div style="color: #d4a96a; font-size: 14px; font-weight: 500;">Sichuan University</div>
         </div>
     </div>
     
     <div class="header-wrap">
-        <!-- 粒子动画画布 -->
-        <canvas id="particleCanvas"></canvas>
-        
         <div class="container">
             <div class="profile-header">
-                
                 <div class="banner-text-box">
                     <h1>王永生 教授 / 博士生导师</h1>
                     <p class="eng-title">Principal Investigator</p>
-                    
                     <div class="details">
                         <p><strong>单位：</strong>四川大学华西医院 肿瘤中心·胸部肿瘤科</p>
                         <p><strong>职务：</strong>肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任、<br>华西医院创新药物临床研究与评价国家药监局重点实验室主任</p>
                         <p><strong>邮箱：</strong>wangys@scu.edu.cn</p>
                     </div>
-
                     <div class="research-direction">
                         <ul>
                             <li>肿瘤免疫治疗</li>
@@ -450,19 +392,10 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="avatar-box">
                     <img src="图片 1.jpg" alt="王永生">
                 </div>
-
             </div>
-            
-            <!-- 👇 新增：主图左下角的英文核心标语 👇 -->
-            <div class="banner-bottom-text">
-                <div class="b-line1">Wangyongsheng LAB</div>
-                <div class="b-line2">Chimeric Antigen Receptor Therapy</div>
-            </div>
-            
         </div>
     </div>
 
@@ -497,7 +430,6 @@
                         <li>2026年任华西医院肿瘤中心常务副主任，华西临床医学院肿瘤学系常务副主任</li>
                     </ul>
                 </div>
-
                 <div class="content-card">
                     <h3>学术任职</h3>
                     <ul>
@@ -516,17 +448,14 @@
                 <div class="content-card">
                     <p>研究工作主要聚焦于肿瘤靶向及免疫治疗临床与转化研究，特别是免疫细胞治疗的技术开发与临床应用。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>1. 肿瘤免疫治疗基础与临床转化</h3>
                     <p>开展免疫检查点抑制剂、免疫细胞治疗等新疗法的基础机制研究与临床转化，推动免疫治疗方案的优化与个体化应用。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>2. CAR-T细胞治疗技术开发</h3>
                     <p>专注于CAR-T等免疫细胞治疗产品的研发，推动细胞治疗专利成果的临床转化，在华西医院牵头开展多项CAR-T细胞临床试验。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>3. 创新药物临床研究与评价</h3>
                     <p>作为国家药物临床试验机构负责人，牵头开展国内外创新抗肿瘤药物的临床试验，包括全球多中心临床研究，建立创新药物临床评价体系。</p>
@@ -546,12 +475,10 @@
                         <li>中国医学科学院临床与转化医学研究基金项目</li>
                     </ul>
                 </div>
-
                 <div class="content-card">
                     <h3>学术论文</h3>
                     <p>以第一作者或通讯作者在Signal Transduct Target Ther（6篇），J Clin Oncol，Ann Oncol，Cancer Res，Clin Cancer Res（2篇），Mol Ther，JITC等发表研究论文100多篇。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>专利与转化</h3>
                     <ul>
@@ -560,7 +487,6 @@
                         <li>与多家生物公司签订联合开发协议</li>
                     </ul>
                 </div>
-
                 <div class="content-card">
                     <h3>临床试验</h3>
                     <p>作为肿瘤学临床专家，牵头开展新药临床试验30多项，其中全球多中心临床试验中国区组长5项,新型CAR-T细胞开展临床试验6项。</p>
@@ -579,7 +505,6 @@
                     <li>Ma Q, He X, Zhang B, Guo F, Ou X, Yang Q, Shu P, Chen Y, Li K, Gao G, Zhu Y, Qin D, Tang J, Li X, Jing M, Zhao J, Mo Z, Liu N, Zeng Y, Zhou K, Feng M, Liao W, Lei W, Li Q, Li D, <strong>Wang Y</strong>. A PD-L1-targeting chimeric switch receptor enhances efficacy of CAR-T cell for pleural and peritoneal metastasis. <strong>Signal Transduct Target Ther</strong>. 2022 Nov 19;7(1):380. </li>
                     <li>Li K, Shi H, Zhang B, Ou X, Ma Q, Chen Y, Shu P, Li D, <strong>Wang Y</strong>. Myeloid-derived suppressor cells as immunosuppressive regulators and therapeutic targets in cancer. <strong>Signal Transduct Target Ther</strong>. 2021 Oct 7;6(1):362.</li>
                 </ol>
-                <div class="update-time">更新时间：2026-08-31</div>
             </div>
 
             <!-- 课题组风采 -->
@@ -587,67 +512,33 @@
                 <div class="content-card">
                     <h3>毕业照</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item">
-                            <img src="images/毕业照/1.jpg" alt="毕业照1">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/毕业照/2.jpg" alt="毕业照2">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/毕业照/3.jpg" alt="毕业照3">
-                        </div>
+                        <div class="gallery-item"><img src="images/毕业照/1.jpg" alt="毕业照1"></div>
+                        <div class="gallery-item"><img src="images/毕业照/2.jpg" alt="毕业照2"></div>
+                        <div class="gallery-item"><img src="images/毕业照/3.jpg" alt="毕业照3"></div>
                     </div>
                 </div>
-
                 <div class="content-card">
                     <h3>实验室活动</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/1.jpg" alt="实验室活动1">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/2.jpg" alt="实验室活动2">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/3.jpg" alt="实验室活动3">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/4.jpg" alt="实验室活动4">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/5.jpg" alt="实验室活动5">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/实验室活动/6.jpg" alt="实验室活动6">
-                        </div>
+                        <div class="gallery-item"><img src="images/实验室活动/1.jpg" alt="活动1"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/2.jpg" alt="活动2"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/3.jpg" alt="活动3"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/4.jpg" alt="活动4"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/5.jpg" alt="活动5"></div>
+                        <div class="gallery-item"><img src="images/实验室活动/6.jpg" alt="活动6"></div>
                     </div>
                 </div>
-
                 <div class="content-card">
                     <h3>细胞治疗团队</h3>
                     <div class="gallery-carousel">
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/1.jpg" alt="细胞治疗团队1">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/2.jpg" alt="细胞治疗团队2">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/3.jpg" alt="细胞治疗团队3">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/4.jpg" alt="细胞治疗团队4">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/5.jpg" alt="细胞治疗团队5">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="images/细胞治疗团队/6.jpg" alt="细胞治疗团队6">
-                        </div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/1.jpg" alt="团队1"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/2.jpg" alt="团队2"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/3.jpg" alt="团队3"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/4.jpg" alt="团队4"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/5.jpg" alt="团队5"></div>
+                        <div class="gallery-item"><img src="images/细胞治疗团队/6.jpg" alt="团队6"></div>
                     </div>
                 </div>
-
-                <div class="update-time">更新时间：2026-08-31</div>
             </div>
 
             <!-- 招聘信息 -->
@@ -656,14 +547,12 @@
                     <h3>博士后招聘</h3>
                     <p>因科研工作发展需要，四川大学华西医院王永生课题组现面向国内外公开招收博士后研究人员数名。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>课题组介绍</h3>
                     <p>王永生教授，现任华西医院创新药物临床研究与评价国家药监局重点实验室主任、华西医院肿瘤中心常务副主任、华西临床医学院肿瘤学系常务副主任，四川大学生物治疗国家重点实验室肿瘤生物研究室PI、博士生导师。</p>
                     <p>长期从事肿瘤临床及基础研究工作，基础研究主要集中于肿瘤免疫治疗和临床转化研究。承担“十一五”“十三五”重大新药创制、国家“863”项目、国家自然科学基金项目等多个国家级项目，以第一作者或通讯作者在Signal Transduct Target Ther（6篇）、J Clin Oncol、Ann Oncol、Cancer Res、Clin Cancer Res（2篇）、Mol Ther、JITC等期刊发表研究论文100多篇。</p>
                     <p>团队近几年在CAR-T细胞领域获授权专利7项（PCT专利2项），其中1项PCT专利已获得美国授权，欧盟专利进入最后审核阶段。目前与多家企业签订合作协议，推进临床转化。</p>
                 </div>
-
                 <div class="content-card">
                     <h3>岗位描述</h3>
                     <ul>
@@ -672,7 +561,6 @@
                         <li>在站期间待遇、科研业绩要求，以及出站后留院要求，均按照四川大学华西医院博士后管理有关规定执行。</li>
                     </ul>
                 </div>
-
                 <div class="content-card">
                     <h3>招收条件</h3>
                     <ul>
@@ -683,13 +571,10 @@
                         <li>博士期间至少以第一作者发表过SCI论文1-2篇。</li>
                     </ul>
                 </div>
-
                 <div class="content-card">
                     <h3>应聘方式</h3>
                     <p>请有意者将个人简历发送至邮箱：<a href="mailto:wangys@scu.edu.cn">wangys@scu.edu.cn</a>，邮件标题请注明“博士后申请”。</p>
                 </div>
-
-                <div class="update-time">更新时间：2026-08-31</div>
             </div>
         </div>
     </div>
@@ -702,7 +587,30 @@
     </div>
 
     <script>
-        // 标签页切换功能
+        // ----------------------------------------------------
+        // 1. 点击 About Us，拉开启动页帷幕的交互逻辑
+        // ----------------------------------------------------
+        const enterBtn = document.getElementById('enterBtn');
+        const landingPage = document.getElementById('landing-page');
+        
+        enterBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // 阻止链接的默认跳转
+            
+            // 给启动页加上滑走动画的 class
+            landingPage.classList.add('slide-up');
+            
+            // 恢复主页的上下滑动功能
+            document.body.style.overflow = 'auto';
+            
+            // 动画完成后（0.8秒），把启动页彻底隐藏，不占用系统资源
+            setTimeout(() => {
+                landingPage.style.display = 'none';
+            }, 800);
+        });
+
+        // ----------------------------------------------------
+        // 2. 标签页切换功能
+        // ----------------------------------------------------
         const tabItems = document.querySelectorAll('.tab-item');
         const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -717,18 +625,22 @@
             });
         });
 
-        // CAR-T细胞粒子漂浮动画
-        const canvas = document.getElementById('particleCanvas');
+        // ----------------------------------------------------
+        // 3. 启动页：全屏 CAR-T 细胞粒子游走动画
+        // ----------------------------------------------------
+        const canvas = document.getElementById('landingCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
+        let animationFrameId;
 
         function initCanvas() {
-            const header = document.querySelector('.header-wrap');
-            width = canvas.width = header.offsetWidth;
-            height = canvas.height = header.offsetHeight;
+            // 画布大小直接等于当前浏览器窗口大小
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
             
-            const particleCount = Math.floor((width * height) / 12000); 
+            // 根据屏幕大小计算合适的细胞粒子数量
+            const particleCount = Math.floor((width * height) / 10000); 
             particles = [];
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle());
@@ -739,9 +651,9 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 2 + 1;
+                this.vx = (Math.random() - 0.5) * 0.5; // 细胞游走速度
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1; // 细胞大小
             }
             update() {
                 this.x += this.vx;
@@ -752,7 +664,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(212, 169, 106, 0.6)'; 
+                ctx.fillStyle = 'rgba(212, 169, 106, 0.7)'; // 粒子颜色
                 ctx.fill();
             }
         }
@@ -764,25 +676,29 @@
                 particles[i].update();
                 particles[i].draw();
                 
+                // 模拟免疫突触连接
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     
-                    if (dist < 120) {
+                    if (dist < 150) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist/120) * 0.4})`; 
-                        ctx.lineWidth = 0.6;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist/150) * 0.3})`; 
+                        ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
                 }
             }
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate);
         }
 
+        // 监听窗口大小变化
         window.addEventListener('resize', initCanvas);
+        
+        // 启动动画
         initCanvas();
         animate();
     </script>
