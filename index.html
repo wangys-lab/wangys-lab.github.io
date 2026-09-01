@@ -184,18 +184,21 @@
             z-index: 1;
         }
 
-        .main-content::after {
+        ..main-content::after {
             content: "";
             position: absolute;
-            bottom: 0;
-            right: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-image: url("huaxi.png"); 
             background-repeat: no-repeat;
-            background-position: right bottom; 
-            background-size: 450px auto; 
-            opacity: 0.15; 
+            
+            /* 👇 主要修改了下面这两行 👇 */
+            background-position: center; /* 让图片居中对齐 */
+            background-size: cover; /* cover 的意思是：保持图片比例，自动放大直到填满整个区域 */
+            
+            opacity: 0.15; /* 透明度保持 15% */
             z-index: -1; 
             pointer-events: none; 
         }
