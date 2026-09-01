@@ -116,26 +116,26 @@
 
         .landing-bottom-left {
             position: absolute;
-            bottom: 60px;
+            bottom: 120px; /* 文字整体上移 */
             left: 60px;
             z-index: 10;
         }
 
         .landing-title {
             font-family: "Playfair Display", "Georgia", serif;
-            font-size: 52px;
+            font-size: 64px; /* 标题放大 */
             color: #ffffff;
             font-weight: 700;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
+            letter-spacing: 4px; /* 字间距加宽 */
+            margin-bottom: 12px;
             text-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
 
         .landing-subtitle {
             font-family: "Helvetica Neue", Arial, sans-serif;
-            font-size: 14px;
+            font-size: 16px; /* 副标题放大 */
             color: #d4a96a;
-            letter-spacing: 5px;
+            letter-spacing: 6px; /* 字间距加宽 */
             text-transform: uppercase;
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
@@ -596,17 +596,17 @@
         /* 响应式适配 */
         @media (max-width: 768px) {
             .landing-title {
-                font-size: 36px;
+                font-size: 42px;
             }
 
             .landing-subtitle {
-                font-size: 12px;
-                letter-spacing: 2px;
+                font-size: 13px;
+                letter-spacing: 3px;
             }
 
             .landing-bottom-left {
                 left: 30px;
-                bottom: 40px;
+                bottom: 80px;
             }
 
             .landing-top-right {
@@ -673,7 +673,16 @@
 
         @media (max-width: 480px) {
             .landing-title {
-                font-size: 28px;
+                font-size: 32px;
+            }
+            
+            .landing-subtitle {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .landing-bottom-left {
+                bottom: 60px;
             }
 
             .enter-btn {
