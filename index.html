@@ -44,8 +44,14 @@
             height: 100vh;
             background-color: #1a1a1a;
             z-index: 9999;
-            cursor: pointer;
+            /* 👇 默认不可点击，鼠标为箭头 👇 */
+            cursor: default;
             transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.5s ease;
+        }
+
+        /* 👇 当赋予 can-enter 类时，鼠标变小手，允许点击 👇 */
+        #landing-page.can-enter {
+            cursor: pointer;
         }
 
         /* 电影级双图轮播背景 */
@@ -69,16 +75,17 @@
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            opacity: 0; /* 初始全部透明 */
-            transform: scale(1); /* 初始正常大小 */
+            opacity: 0; 
+            transform: scale(1); 
             transition: opacity 1.5s ease-in-out, transform 6s linear;
         }
         
         .slide-bg.active {
-            opacity: 1; /* 激活时变为不透明 */
-            transform: scale(1.08); /* 激活时缓慢放大 */
+            opacity: 1; 
+            transform: scale(1.08); 
         }
 
+        /* 暗色渐变遮罩 */
         #landing-page::before {
             content: "";
             position: absolute;
@@ -110,13 +117,21 @@
             animation: fadeIn 1.2s ease 1s forwards; 
         }
 
+        /* 👇 右上角按钮：初始隐藏，只有变成第二张图时才淡入显示 👇 */
         .landing-top-right {
             position: absolute;
             top: 50px;
             right: 60px;
             z-index: 10;
-            opacity: 0;
-            animation: fadeIn 1.2s ease 1s forwards; 
+            opacity: 0; /* 初始透明 */
+            pointer-events: none; /* 初始不可交互 */
+            transition: opacity 1s ease; /* 用过渡动画控制它的浮现 */
+        }
+
+        /* 当启动页获得 can-enter 权限时，按钮浮现 */
+        #landing-page.can-enter .landing-top-right {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .enter-btn {
@@ -142,6 +157,7 @@
             border-color: #d4a96a;
         }
 
+        /* 左下角标题 (始终显示) */
         .landing-bottom-left {
             position: absolute;
             bottom: 120px; 
@@ -453,14 +469,10 @@
 </head>
 <body>
 
-    <!-- 全屏粒子背景画布 -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- 启动页 -->
     <div id="landing-page">
-        <!-- 电影级淡入与缓慢缩放轮播背景 -->
         <div class="landing-bg-slider">
-            <!-- 注意：这里去掉了默认的 active 类，让JS来控制第一张图的淡入过渡 -->
             <div class="slide-bg" style="background-image: url('landing-bg.png');"></div>
             <div class="slide-bg" style="background-image: url('landing-bg2.png');"></div>
         </div>
@@ -475,7 +487,6 @@
         </div>
     </div>
 
-    <!-- 顶部品牌栏 -->
     <div class="top-brand-bar">
         <div class="container">
             <a href="index.html" class="lab-name">Wang Yongsheng Lab</a>
@@ -483,7 +494,6 @@
         </div>
     </div>
     
-    <!-- 顶部横幅 -->
     <div class="header-wrap">
         <canvas id="particleCanvas"></canvas>
         <div class="container">
@@ -513,7 +523,6 @@
         </div>
     </div>
 
-    <!-- 标签导航 -->
     <div class="tab-nav">
         <div class="container">
             <ul class="tab-list">
@@ -528,7 +537,6 @@
         </div>
     </div>
 
-    <!-- 主内容 -->
     <div class="container">
         <div class="main-content">
 
@@ -736,8 +744,10 @@
         let currentSlide = 0;
         let slideInterval;
 
+        const landingPage = document.getElementById('landing-page');
+
         if (slides.length > 0) {
-            // 👇 修复：给第一张图一点微小的延迟触发过渡动画 👇
+            // 给第一张图一点微小的延迟触发过渡动画
             setTimeout(() => {
                 slides[0].classList.add('active');
             }, 100);
@@ -747,11 +757,17 @@
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
+
+                // 👇 核心机制：只有当轮播到第二张图 (索引为 1) 时，才解锁点击权限 👇
+                if (currentSlide === 1) {
+                    landingPage.classList.add('can-enter');
+                } else {
+                    landingPage.classList.remove('can-enter');
+                }
             }, 6000);
         }
 
         // ========== 启动页退出逻辑 ==========
-        const landingPage = document.getElementById('landing-page');
         let lAnimationFrameId = null;
 
         function enterMainPage() {
@@ -771,9 +787,12 @@
             }, 1500);
         }
         
+        // 👇 判断：只有当前是第二张图时，点击才会进入主页 👇
         landingPage.addEventListener('click', function(e) {
             e.preventDefault();
-            enterMainPage();
+            if (currentSlide === 1) {
+                enterMainPage();
+            }
         });
 
         // ========== 标签页切换 ==========
