@@ -48,47 +48,28 @@
             transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.5s ease;
         }
 
-        /* 帷幕滑入效果 */
-        .landing-half {
+        /* 👇 恢复：由远及近的单张图片入场动画 👇 */
+        .landing-bg-single {
             position: absolute;
             top: 0;
-            width: 50vw;
-            height: 100vh;
-            overflow: hidden; 
-            z-index: 0;
-            animation: slideIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-        
-        .landing-half.left {
             left: 0;
-            transform: translateX(-100%);
-        }
-        
-        .landing-half.right {
-            right: 0;
-            transform: translateX(100%);
-        }
-
-        .landing-bg {
-            position: absolute;
-            top: 0;
-            width: 100vw; 
+            width: 100vw;
             height: 100vh;
-            background-color: #1a1a1a;
-            background-image: url('landing-bg.png'); 
+            background-image: url('landing-bg.png'); /* 你的启动页背景图 */
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-        }
-        
-        .landing-half.left .landing-bg { left: 0; }
-        .landing-half.right .landing-bg { right: 0; }
-
-        @keyframes slideIn {
-            to { transform: translateX(0); }
+            z-index: 0;
+            opacity: 0; 
+            animation: farToNear 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* 暗色渐变遮罩 */
+        @keyframes farToNear {
+            0% { transform: scale(0.85); opacity: 0; } 
+            100% { transform: scale(1); opacity: 1; }  
+        }
+
+        /* 暗色渐变遮罩：在图片浮现后缓慢变暗 */
         #landing-page::before {
             content: "";
             position: absolute;
@@ -100,7 +81,7 @@
             z-index: 1;
             pointer-events: none;
             opacity: 0;
-            animation: fadeIn 1.2s ease 0.8s forwards;
+            animation: fadeIn 1.5s ease 0.5s forwards;
         }
 
         #landing-page.zoom-out {
@@ -117,7 +98,7 @@
             height: 100%;
             z-index: 2;
             opacity: 0;
-            animation: fadeIn 1.2s ease 0.8s forwards; 
+            animation: fadeIn 1.2s ease 1s forwards; 
         }
 
         .landing-top-right {
@@ -184,7 +165,7 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
 
-        /* 顶部品牌栏 */
+        /* ==================== 个人主页内容样式 ==================== */
         .top-brand-bar {
             background-color: #38080a;
             height: 55px;
@@ -229,7 +210,6 @@
             color: #d4a96a;
         }
 
-        /* 顶部横幅 */
         .header-wrap {
             position: relative;
             background-color: #921b22; 
@@ -351,7 +331,6 @@
         }
         .content-card p:last-child, .content-card ul:last-child, .content-card .gallery-carousel { margin-bottom: 0; }
 
-        /* About Us 图文排版 */
         .about-hero { display: flex; gap: 30px; align-items: center; }
         .about-text { flex: 1; }
         .about-text h2 {
@@ -372,38 +351,6 @@
 
         .experience-list { list-style: none; margin-left: 0; padding-left: 0; }
         .experience-list li { margin-bottom: 8px; font-size: 16px; line-height: 1.8; }
-
-        /* 👇 新增：实验室动态 专属列表样式 👇 */
-        .news-list {
-            list-style: none;
-            margin-left: 0;
-            padding-left: 0;
-        }
-        .news-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 16px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: #444;
-            text-align: justify;
-        }
-        .news-list li::before {
-            content: "•";
-            color: #d4a96a;
-            position: absolute;
-            left: 0;
-            font-size: 18px;
-            top: -2px;
-        }
-        .news-date {
-            font-weight: 700;
-            color: #921b22;
-            margin-right: 12px;
-            font-family: "Georgia", "Times New Roman", serif;
-            font-size: 16px;
-        }
-        /* 👆 新增结束 👆 */
 
         .footer {
             background-color: #f0f0f0; border-top: 1px solid #e0e0e0;
@@ -444,6 +391,20 @@
         }
         .paper-list strong { color: #921b22; font-weight: 600; }
         .paper-list i { font-style: italic; }
+
+        /* 实验室动态 时间轴样式 */
+        .news-list { list-style: none; margin-left: 0; padding-left: 0; }
+        .news-list li {
+            position: relative; padding-left: 20px; margin-bottom: 16px;
+            font-size: 15px; line-height: 1.6; color: #444; text-align: justify;
+        }
+        .news-list li::before {
+            content: "•"; color: #d4a96a; position: absolute; left: 0; font-size: 18px; top: -2px;
+        }
+        .news-date {
+            font-weight: 700; color: #921b22; margin-right: 12px;
+            font-family: "Georgia", "Times New Roman", serif; font-size: 16px;
+        }
 
         /* 响应式适配 */
         @media (max-width: 768px) {
@@ -488,13 +449,8 @@
 
     <!-- 启动页 -->
     <div id="landing-page">
-        <!-- 左右滑入无缝拼接背景 -->
-        <div class="landing-half left">
-            <div class="landing-bg"></div>
-        </div>
-        <div class="landing-half right">
-            <div class="landing-bg"></div>
-        </div>
+        <!-- 由远及近缓慢放大的背景图 -->
+        <div class="landing-bg-single"></div>
         
         <canvas id="landingCanvas"></canvas>
         <div class="landing-top-right">
@@ -553,7 +509,6 @@
                 <li class="tab-item" data-tab="achievements">研究与成果</li>
                 <li class="tab-item" data-tab="news">相关论文</li>
                 <li class="tab-item" data-tab="members">课题组风采</li>
-                <!-- 👇 新增：实验室动态 标签 👇 -->
                 <li class="tab-item" data-tab="lab-news">实验室动态</li>
                 <li class="tab-item" data-tab="recruit">招聘信息</li>
             </ul>
@@ -693,11 +648,12 @@
                 </div>
             </div>
 
-            <!-- 👇 新增：实验室动态 页面区块 👇 -->
+            <!-- 实验室动态 -->
             <div class="tab-pane" id="lab-news">
                 <div class="content-card">
                     <h3>实验室动态</h3>
                     <ul class="news-list">
+                        <li><span class="news-date">2026.08</span> 恭喜李晓玉医师获得国自然青年C类项目资助</li>
                         <li><span class="news-date">2026.08</span> 欢迎博士研究生杨雪、杜奕佳加入实验室</li>
                         <li><span class="news-date">2026.08</span> 实验室发表临床研究论文于 <i>Signal Transduct Target Ther</i>（IF:81.2）杂志，通讯作者王永生教授。</li>
                         <li><span class="news-date">2026.08</span> 恭喜博士研究生马启智顺利通过学位答辩</li>
@@ -710,9 +666,7 @@
                         <li><span class="news-date">2025.05</span> 恭喜博士研究生刘宁、雷婉婷顺利通过毕业答辩，恭喜硕士研究生张雨谷顺利通过学位答辩</li>
                     </ul>
                 </div>
-                <div class="update-time">更新时间：2026-09-02</div>
             </div>
-            <!-- 👆 实验室动态 结束 👆 -->
 
             <div class="tab-pane" id="recruit">
                 <div class="content-card">
@@ -783,7 +737,7 @@
             }, 1500);
         }
         
-        // 点击启动页任意位置进入
+        // 允许点击全屏幕任意位置进入主页
         landingPage.addEventListener('click', function(e) {
             e.preventDefault();
             enterMainPage();
@@ -981,7 +935,7 @@
                 hParticles[i].update();
                 hParticles[i].draw();
                 
-                for (let j = i + 1; hParticles.length > j; j++) {
+                for (let j = i + 1; j < hParticles.length; j++) {
                     const dx = hParticles[i].x - hParticles[j].x;
                     const dy = hParticles[i].y - hParticles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
