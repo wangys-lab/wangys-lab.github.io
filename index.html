@@ -48,7 +48,7 @@
             transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.5s ease;
         }
 
-        /* 👇 升级：电影级淡入与缓慢缩放的双图轮播 (Ken Burns Effect) 👇 */
+        /* 电影级双图轮播背景 */
         .landing-bg-slider {
             position: absolute;
             top: 0; 
@@ -69,19 +69,16 @@
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            opacity: 0;
-            transform: scale(1); /* 初始大小 */
-            /* opacity 负责 1.5 秒淡入淡出，transform 负责 6 秒缓慢放大镜头感 */
+            opacity: 0; /* 初始全部透明 */
+            transform: scale(1); /* 初始正常大小 */
             transition: opacity 1.5s ease-in-out, transform 6s linear;
         }
         
         .slide-bg.active {
-            opacity: 1;
-            transform: scale(1.08); /* 缓慢放大到 1.08 倍，带来电影推进感 */
+            opacity: 1; /* 激活时变为不透明 */
+            transform: scale(1.08); /* 激活时缓慢放大 */
         }
-        /* 👆 轮播效果样式结束 👆 */
 
-        /* 暗色渐变遮罩：压暗背景，让白色文字更凸显 */
         #landing-page::before {
             content: "";
             position: absolute;
@@ -102,7 +99,6 @@
             pointer-events: none;
         }
 
-        /* 启动页画布（粒子） */
         #landingCanvas {
             position: absolute;
             top: 0;
@@ -114,7 +110,6 @@
             animation: fadeIn 1.2s ease 1s forwards; 
         }
 
-        /* 右上角按钮 */
         .landing-top-right {
             position: absolute;
             top: 50px;
@@ -147,7 +142,6 @@
             border-color: #d4a96a;
         }
 
-        /* 左下角标题 */
         .landing-bottom-left {
             position: absolute;
             bottom: 120px; 
@@ -255,7 +249,7 @@
             z-index: 1;
             display: flex;
             gap: 40px;
-            padding: 40px 0 60px 0;
+            padding: 40px 0;
             align-items: center;
             justify-content: space-between;
         }
@@ -320,8 +314,8 @@
         .main-content::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("huaxi.png"); background-repeat: no-repeat;
-            background-position: center; background-size: cover;
-            opacity: 0.08; z-index: 0; pointer-events: none; 
+            background-position: center; background-size: cover; opacity: 0.08; 
+            z-index: 0; pointer-events: none; 
         }
         
         .tab-pane { 
@@ -462,13 +456,13 @@
     <!-- 全屏粒子背景画布 -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- 👇 启动页：全屏电影级双图轮播 👇 -->
+    <!-- 启动页 -->
     <div id="landing-page">
         <!-- 电影级淡入与缓慢缩放轮播背景 -->
         <div class="landing-bg-slider">
-            <div class="slide-bg active" style="background-image: url('landing-bg.png');"></div>
+            <!-- 注意：这里去掉了默认的 active 类，让JS来控制第一张图的淡入过渡 -->
+            <div class="slide-bg" style="background-image: url('landing-bg.png');"></div>
             <div class="slide-bg" style="background-image: url('landing-bg2.png');"></div>
-            <!-- 如果你想继续加第三张图，直接复制上面一行改名字即可 -->
         </div>
         
         <canvas id="landingCanvas"></canvas>
@@ -480,7 +474,6 @@
             <div class="landing-subtitle">Chimeric Antigen Receptor Therapy</div>
         </div>
     </div>
-    <!-- 👆 启动页结束 👆 -->
 
     <!-- 顶部品牌栏 -->
     <div class="top-brand-bar">
@@ -516,11 +509,6 @@
                 <div class="avatar-box">
                     <img src="图片 1.jpg" alt="王永生教授" loading="lazy">
                 </div>
-            </div>
-            
-            <div class="banner-bottom-text">
-                <div class="b-line1">Wangyongsheng LAB</div>
-                <div class="b-line2">Chimeric Antigen Receptor Therapy</div>
             </div>
         </div>
     </div>
@@ -673,7 +661,6 @@
                 </div>
             </div>
 
-            <!-- 实验室动态 -->
             <div class="tab-pane" id="lab-news">
                 <div class="content-card">
                     <h3>实验室动态</h3>
@@ -750,12 +737,17 @@
         let slideInterval;
 
         if (slides.length > 0) {
-            // 每 5 秒切换一次图片
+            // 👇 修复：给第一张图一点微小的延迟触发过渡动画 👇
+            setTimeout(() => {
+                slides[0].classList.add('active');
+            }, 100);
+
+            // 每 6 秒切换一张，配合 6 秒的缩放时长
             slideInterval = setInterval(() => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 5000);
+            }, 6000);
         }
 
         // ========== 启动页退出逻辑 ==========
@@ -774,12 +766,11 @@
                     lAnimationFrameId = null;
                 }
                 if (slideInterval) {
-                    clearInterval(slideInterval); // 进入主页后停止轮播，节省电脑性能
+                    clearInterval(slideInterval); 
                 }
             }, 1500);
         }
         
-        // 允许点击全屏幕任意位置进入主页
         landingPage.addEventListener('click', function(e) {
             e.preventDefault();
             enterMainPage();
