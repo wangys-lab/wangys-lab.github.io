@@ -48,28 +48,40 @@
             transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.5s ease;
         }
 
-        /* 👇 恢复：由远及近的单张图片入场动画 👇 */
-        .landing-bg-single {
+        /* 👇 升级：电影级淡入与缓慢缩放的双图轮播 (Ken Burns Effect) 👇 */
+        .landing-bg-slider {
             position: absolute;
-            top: 0;
+            top: 0; 
             left: 0;
-            width: 100vw;
+            width: 100vw; 
             height: 100vh;
-            background-image: url('landing-bg.png'); /* 你的启动页背景图 */
+            z-index: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+        }
+        
+        .slide-bg {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            z-index: 0;
-            opacity: 0; 
-            animation: farToNear 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: scale(1); /* 初始大小 */
+            /* opacity 负责 1.5 秒淡入淡出，transform 负责 6 秒缓慢放大镜头感 */
+            transition: opacity 1.5s ease-in-out, transform 6s linear;
         }
-
-        @keyframes farToNear {
-            0% { transform: scale(0.85); opacity: 0; } 
-            100% { transform: scale(1); opacity: 1; }  
+        
+        .slide-bg.active {
+            opacity: 1;
+            transform: scale(1.08); /* 缓慢放大到 1.08 倍，带来电影推进感 */
         }
+        /* 👆 轮播效果样式结束 👆 */
 
-        /* 暗色渐变遮罩：在图片浮现后缓慢变暗 */
+        /* 暗色渐变遮罩：压暗背景，让白色文字更凸显 */
         #landing-page::before {
             content: "";
             position: absolute;
@@ -90,6 +102,7 @@
             pointer-events: none;
         }
 
+        /* 启动页画布（粒子） */
         #landingCanvas {
             position: absolute;
             top: 0;
@@ -101,6 +114,7 @@
             animation: fadeIn 1.2s ease 1s forwards; 
         }
 
+        /* 右上角按钮 */
         .landing-top-right {
             position: absolute;
             top: 50px;
@@ -133,6 +147,7 @@
             border-color: #d4a96a;
         }
 
+        /* 左下角标题 */
         .landing-bottom-left {
             position: absolute;
             bottom: 120px; 
@@ -447,10 +462,14 @@
     <!-- 全屏粒子背景画布 -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- 启动页 -->
+    <!-- 👇 启动页：全屏电影级双图轮播 👇 -->
     <div id="landing-page">
-        <!-- 由远及近缓慢放大的背景图 -->
-        <div class="landing-bg-single"></div>
+        <!-- 电影级淡入与缓慢缩放轮播背景 -->
+        <div class="landing-bg-slider">
+            <div class="slide-bg active" style="background-image: url('landing-bg.png');"></div>
+            <div class="slide-bg" style="background-image: url('landing-bg2.png');"></div>
+            <!-- 如果你想继续加第三张图，直接复制上面一行改名字即可 -->
+        </div>
         
         <canvas id="landingCanvas"></canvas>
         <div class="landing-top-right">
@@ -461,6 +480,7 @@
             <div class="landing-subtitle">Chimeric Antigen Receptor Therapy</div>
         </div>
     </div>
+    <!-- 👆 启动页结束 👆 -->
 
     <!-- 顶部品牌栏 -->
     <div class="top-brand-bar">
@@ -496,6 +516,11 @@
                 <div class="avatar-box">
                     <img src="图片 1.jpg" alt="王永生教授" loading="lazy">
                 </div>
+            </div>
+            
+            <div class="banner-bottom-text">
+                <div class="b-line1">Wangyongsheng LAB</div>
+                <div class="b-line2">Chimeric Antigen Receptor Therapy</div>
             </div>
         </div>
     </div>
@@ -653,6 +678,7 @@
                 <div class="content-card">
                     <h3>实验室动态</h3>
                     <ul class="news-list">
+                        <li><span class="news-date">2026.08</span> 恭喜李晓玉医师获得国自然青年C类项目资助</li>
                         <li><span class="news-date">2026.08</span> 欢迎博士研究生杨雪、杜奕佳加入实验室</li>
                         <li><span class="news-date">2026.08</span> 实验室发表临床研究论文于 <i>Signal Transduct Target Ther</i>（IF:81.2）杂志，通讯作者王永生教授。</li>
                         <li><span class="news-date">2026.08</span> 恭喜博士研究生马启智顺利通过学位答辩</li>
@@ -718,7 +744,21 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // ========== 启动页逻辑 ==========
+        // ========== 启动页电影级背景轮播逻辑 ==========
+        const slides = document.querySelectorAll('.slide-bg');
+        let currentSlide = 0;
+        let slideInterval;
+
+        if (slides.length > 0) {
+            // 每 5 秒切换一次图片
+            slideInterval = setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000);
+        }
+
+        // ========== 启动页退出逻辑 ==========
         const landingPage = document.getElementById('landing-page');
         let lAnimationFrameId = null;
 
@@ -732,6 +772,9 @@
                 if (lAnimationFrameId) {
                     cancelAnimationFrame(lAnimationFrameId);
                     lAnimationFrameId = null;
+                }
+                if (slideInterval) {
+                    clearInterval(slideInterval); // 进入主页后停止轮播，节省电脑性能
                 }
             }, 1500);
         }
