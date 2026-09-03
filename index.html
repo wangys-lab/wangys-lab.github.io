@@ -167,6 +167,14 @@
             animation: fadeIn 1.2s ease 1s forwards; 
         }
 
+        /* 👇 添加这部分：当进入第二张图(can-enter)时，隐藏左下角标题 👇 */
+        #landing-page.can-enter .landing-bottom-left {
+            opacity: 0 !important;
+            animation: none; /* 取消原有的 fadeIn 动画锁定 */
+            transition: opacity 1s ease; /* 让它平滑淡出 */
+            pointer-events: none;
+        }
+
         @keyframes fadeIn {
             to { opacity: 1; }
         }
